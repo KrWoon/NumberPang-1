@@ -16,10 +16,6 @@ package com.example.nkkim.numberpang;
 public class MainActivity extends AppCompatActivity {
     int ranNumber = 1;
 
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        return super.onKeyDown(keyCode, event);
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,8 +25,10 @@ public class MainActivity extends AppCompatActivity {
         text1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                text1.setText(ranNumber + "");
-                newRandom();
+                if(text1.getText() == "") {
+                    text1.setText(ranNumber + "");
+                    newRandom();
+                }
             }
         });
 
@@ -38,8 +36,10 @@ public class MainActivity extends AppCompatActivity {
         text2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                text2.setText(ranNumber + "");
-                newRandom();
+                if(text2.getText() == "") {
+                    text2.setText(ranNumber + "");
+                    newRandom();
+                }
             }
         });
 
@@ -47,8 +47,10 @@ public class MainActivity extends AppCompatActivity {
         text3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                text3.setText(ranNumber + "");
-                newRandom();
+                if(text3.getText() == "") {
+                    text3.setText(ranNumber + "");
+                    newRandom();
+                }
             }
         });
 
@@ -56,8 +58,10 @@ public class MainActivity extends AppCompatActivity {
         text4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                text4.setText(ranNumber + "");
-                newRandom();
+                if(text4.getText() == "") {
+                    text4.setText(ranNumber + "");
+                    newRandom();
+                }
             }
         });
 
@@ -65,8 +69,10 @@ public class MainActivity extends AppCompatActivity {
         text5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                text5.setText(ranNumber + "");
-                newRandom();
+                if(text5.getText() == "") {
+                    text5.setText(ranNumber + "");
+                    newRandom();
+                }
             }
         });
 
@@ -74,8 +80,10 @@ public class MainActivity extends AppCompatActivity {
         text6.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                text6.setText(ranNumber + "");
-                newRandom();
+                if(text6.getText() == "") {
+                    text6.setText(ranNumber + "");
+                    newRandom();
+                }
             }
         });
 
@@ -83,8 +91,10 @@ public class MainActivity extends AppCompatActivity {
         text7.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                text7.setText(ranNumber + "");
-                newRandom();
+                if(text7.getText() == "") {
+                    text7.setText(ranNumber + "");
+                    newRandom();
+                }
             }
         });
 
@@ -92,8 +102,10 @@ public class MainActivity extends AppCompatActivity {
         text8.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                text8.setText(ranNumber + "");
-                newRandom();
+                if(text8.getText() == "") {
+                    text8.setText(ranNumber + "");
+                    newRandom();
+                }
             }
         });
 
@@ -101,8 +113,10 @@ public class MainActivity extends AppCompatActivity {
         text9.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                text9.setText(ranNumber + "");
-                newRandom();
+                if(text9.getText() == "") {
+                    text9.setText(ranNumber + "");
+                    newRandom();
+                }
             }
         });
     }
