@@ -1,4 +1,4 @@
-package com.kkh.numberpang;
+package com.example.numberpang;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,6 +16,7 @@ public class MainActivity extends AppCompatActivity {
     int score = 0;
     int combo = -1;
     int item = 0;
+    int i,j;
 
     boolean horizon[] = new boolean[3];
     boolean vertical[] = new boolean[3];
@@ -431,6 +432,7 @@ public class MainActivity extends AppCompatActivity {
                             Save[i][j] = 0;
                         }
                     }
+
                     text1.setText("");
                     text2.setText("");
                     text3.setText("");
@@ -440,8 +442,10 @@ public class MainActivity extends AppCompatActivity {
                     text7.setText("");
                     text8.setText("");
                     text9.setText("");
+
                     item --;
                     Item.setText(item + "");
+                    Toast.makeText(getApplicationContext(), "아이템 사용 !", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -474,7 +478,6 @@ public class MainActivity extends AppCompatActivity {
                 score += 10;
                 combo ++;
             }
-
         }
         //세로의 합이 9면 true
         for(int i=0; i<3; i++) {
@@ -483,7 +486,6 @@ public class MainActivity extends AppCompatActivity {
                 score += 10;
                 combo ++;
             }
-
         }
         // 1 5 9 칸의 합이 9면 true
         if(Save[0][0] + Save[1][1] + Save[2][2] == 9 && Save[0][0] > 0 && Save[1][1] > 0 && Save[2][2] > 0) {
@@ -498,10 +500,13 @@ public class MainActivity extends AppCompatActivity {
             score += 10;
             combo ++;
         }
+
         if(horizon[0]==false && horizon[1]==false && horizon[2]==false && vertical[0]==false && vertical[1]==false && vertical[2]==false &&diagonal[0]== false && diagonal[1] ==false) {
             combo = -1;
         }
+
         while(combo>=1) {                   //1콤보 이상이면 아이템 1개씩 증가
+            Toast.makeText(getApplicationContext(), combo + " Combo !" , Toast.LENGTH_SHORT).show();
             item ++;
             combo --;
         }
