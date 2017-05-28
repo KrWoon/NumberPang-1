@@ -459,7 +459,7 @@ public class MainActivity extends AppCompatActivity {
 
                     item --;
                     Item.setText(item + "");
-                    time = time + 5;
+                    time = time + 10;
                     textTimer.setText(time + "초");
                     Toast.makeText(getApplicationContext(), "아이템 사용 !", Toast.LENGTH_SHORT).show();
                 }
@@ -477,6 +477,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
         });
+
     }
 
 
@@ -484,6 +485,7 @@ public class MainActivity extends AppCompatActivity {
     void newRandom() {
         Random r = new Random();
         this.ranNumber = r.nextInt(5) + 1;
+
     }
 
     void checkSave() {
@@ -528,8 +530,8 @@ public class MainActivity extends AppCompatActivity {
         while(combo>=1) {                   //1콤보 이상이면 아이템 1개씩 증가
             Toast.makeText(getApplicationContext(), combo + " Combo !" , Toast.LENGTH_SHORT).show();
             item ++;
-            time=time+combo;
-            score=score+10*combo;
+            time=time+combo*combo;
+            score=score+10*combo*combo;
             combo --;
         }
     }
@@ -558,7 +560,7 @@ public class MainActivity extends AppCompatActivity {
                 textTimer.setText(time + "초");
                 if (time == 0) {
                     cancel();
-                    Toast.makeText(getApplicationContext(), "Game Over", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "최종점수는 "+score+"입니다" , Toast.LENGTH_LONG).show();
                     Intent reIntent = new Intent(getApplicationContext(), MainActivity.class);
                     startActivity(reIntent);
                     finish();
