@@ -1,7 +1,8 @@
-package com.example.numberpang;
+package com.kkh.numberpang;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
@@ -15,9 +16,9 @@ public class MainActivity extends AppCompatActivity {
     int saveRandom[] = new int[3];
     int score = 0;
     int combo = -1;
-    int item = 0;
+    int item = 1;
     int i,j;
-
+    int time = 61;
     boolean horizon[] = new boolean[3];
     boolean vertical[] = new boolean[3];
     boolean diagonal[] = new boolean[2];
@@ -44,6 +45,8 @@ public class MainActivity extends AppCompatActivity {
         final TextView Score = (TextView) findViewById(R.id.Score);
         final TextView Item = (TextView) findViewById(R.id.Item);
         final TextView temp = (TextView) findViewById(R.id.temp);
+        final TextView textTimer = (TextView) findViewById(R.id.textTimer);
+
 
         newRandom();
         Random1.setText(ranNumber + "");
@@ -57,6 +60,8 @@ public class MainActivity extends AppCompatActivity {
 
         Score.setText(score + "");
         Item.setText(item + "");
+
+
 
         text1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
                     saveRandom[2] = ranNumber;
                     checkSave();
                     Item.setText(item + "");
+                    textTimer.setText(time + "초");
                     if(horizon[0] == true) {
                         text1.setText(""); Save[0][0] = 0;
                         text2.setText(""); Save[0][1] = 0;
@@ -117,6 +123,7 @@ public class MainActivity extends AppCompatActivity {
                     saveRandom[2] = ranNumber;
                     checkSave();
                     Item.setText(item + "");
+                    textTimer.setText(time + "초");
                     if(horizon[0] == true) {
                         text1.setText(""); Save[0][0] = 0;
                         text2.setText(""); Save[0][1] = 0;
@@ -153,6 +160,7 @@ public class MainActivity extends AppCompatActivity {
                     saveRandom[2] = ranNumber;
                     checkSave();
                     Item.setText(item + "");
+                    textTimer.setText(time + "초");
                     if(horizon[0] == true) {
                         text1.setText(""); Save[0][0] = 0;
                         text2.setText(""); Save[0][1] = 0;
@@ -196,6 +204,7 @@ public class MainActivity extends AppCompatActivity {
                     saveRandom[2] = ranNumber;
                     checkSave();
                     Item.setText(item + "");
+                    textTimer.setText(time + "초");
                     if(horizon[1] == true) {
                         text4.setText(""); Save[1][0] = 0;
                         text5.setText(""); Save[1][1] = 0;
@@ -232,6 +241,7 @@ public class MainActivity extends AppCompatActivity {
                     saveRandom[2] = ranNumber;
                     checkSave();
                     Item.setText(item + "");
+                    textTimer.setText(time + "초");
                     if(horizon[1] == true) {
                         text4.setText(""); Save[1][0] = 0;
                         text5.setText(""); Save[1][1] = 0;
@@ -282,6 +292,7 @@ public class MainActivity extends AppCompatActivity {
                     saveRandom[2] = ranNumber;
                     checkSave();
                     Item.setText(item + "");
+                    textTimer.setText(time + "초");
                     if(horizon[1] == true) {
                         text4.setText(""); Save[1][0] = 0;
                         text5.setText(""); Save[1][1] = 0;
@@ -318,6 +329,7 @@ public class MainActivity extends AppCompatActivity {
                     saveRandom[2] = ranNumber;
                     checkSave();
                     Item.setText(item + "");
+                    textTimer.setText(time + "초");
                     if(horizon[2] == true) {
                         text7.setText(""); Save[2][0] = 0;
                         text8.setText(""); Save[2][1] = 0;
@@ -361,6 +373,7 @@ public class MainActivity extends AppCompatActivity {
                     saveRandom[2] = ranNumber;
                     checkSave();
                     Item.setText(item + "");
+                    textTimer.setText(time + "초");
                     if(horizon[2] == true) {
                         text7.setText(""); Save[2][0] = 0;
                         text8.setText(""); Save[2][1] = 0;
@@ -397,6 +410,7 @@ public class MainActivity extends AppCompatActivity {
                     saveRandom[2] = ranNumber;
                     checkSave();
                     Item.setText(item + "");
+                    textTimer.setText(time + "초");
                     if(horizon[2] == true) {
                         text7.setText(""); Save[2][0] = 0;
                         text8.setText(""); Save[2][1] = 0;
@@ -445,6 +459,8 @@ public class MainActivity extends AppCompatActivity {
 
                     item --;
                     Item.setText(item + "");
+                    time = time + 5;
+                    textTimer.setText(time + "초");
                     Toast.makeText(getApplicationContext(), "아이템 사용 !", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -477,6 +493,7 @@ public class MainActivity extends AppCompatActivity {
                 horizon[i] = true;
                 score += 10;
                 combo ++;
+                time=time+3;
             }
         }
         //세로의 합이 9면 true
@@ -485,6 +502,7 @@ public class MainActivity extends AppCompatActivity {
                 vertical[i] = true;
                 score += 10;
                 combo ++;
+                time=time+3;
             }
         }
         // 1 5 9 칸의 합이 9면 true
@@ -492,6 +510,7 @@ public class MainActivity extends AppCompatActivity {
             diagonal[0] = true;
             score += 10;
             combo ++;
+            time=time+3;
         }
 
         // 3 5 7 칸의 합이 9면 true
@@ -499,6 +518,7 @@ public class MainActivity extends AppCompatActivity {
             diagonal[1] = true;
             score += 10;
             combo ++;
+            time=time+3;
         }
 
         if(horizon[0]==false && horizon[1]==false && horizon[2]==false && vertical[0]==false && vertical[1]==false && vertical[2]==false &&diagonal[0]== false && diagonal[1] ==false) {
@@ -508,6 +528,8 @@ public class MainActivity extends AppCompatActivity {
         while(combo>=1) {                   //1콤보 이상이면 아이템 1개씩 증가
             Toast.makeText(getApplicationContext(), combo + " Combo !" , Toast.LENGTH_SHORT).show();
             item ++;
+            time=time+combo;
+            score=score+10*combo;
             combo --;
         }
     }
@@ -526,5 +548,26 @@ public class MainActivity extends AppCompatActivity {
         startActivity(reIntent);
         finish();
     }
+    void startClicked(View v) {                                                                      //게임 재시작
+        Toast.makeText(getApplicationContext(), "게임 시작", Toast.LENGTH_SHORT).show();
+        final TextView textTimer = (TextView) findViewById(R.id.textTimer);
+        new CountDownTimer(2147483647, 1000) {
 
+            public void onTick(long millisUntilFinished) {
+                time--;
+                textTimer.setText(time + "초");
+                if (time == 0) {
+                    cancel();
+                    Toast.makeText(getApplicationContext(), "Game Over", Toast.LENGTH_SHORT).show();
+                    Intent reIntent = new Intent(getApplicationContext(), MainActivity.class);
+                    startActivity(reIntent);
+                    finish();
+                }
+            }
+
+            public void onFinish() {
+
+            }
+        }.start();
+    }
 }
