@@ -1,4 +1,4 @@
-package com.example.numberpang;
+package com.kkh.numberpang;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
@@ -540,7 +539,7 @@ public class MainActivity extends AppCompatActivity {
 
                     item--;
                     Item.setText(item + "");
-                    time = time + 10;
+                    time = time + 5;
                     textTimer.setText(time + "초");
                     Toast.makeText(getApplicationContext(), "아이템 사용 !", Toast.LENGTH_SHORT).show();
                 }
@@ -668,6 +667,9 @@ public class MainActivity extends AppCompatActivity {
         if (count == 9) {
             Toast.makeText(getApplicationContext(), "최종점수는 " + score + "입니다", Toast.LENGTH_LONG).show();
             Intent intent = new Intent(getApplicationContext(), GameoverActivity.class);
+
+            intent.putExtra("TotalScore", score+"");
+            //this.setResult(this.RESULT_OK,intent);
             startActivity(intent);
         }
     }

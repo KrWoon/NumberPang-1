@@ -1,4 +1,4 @@
-package com.example.numberpang;
+package com.kkh.numberpang;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import static com.kkh.numberpang.R.id.TotalScore;
 
 /**
  * Created by 박지운 on 2017-05-29.
@@ -15,11 +17,14 @@ import android.widget.TextView;
 public class GameoverActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.gameover_main);
+        setContentView(R.layout.activity_gameover);
+
+        Intent intent = getIntent();
+        String score = intent.getStringExtra("TotalScore");
 
         MainActivity mainAct = new MainActivity();
-        TextView totalScore = (TextView) findViewById(R.id.TotalScore);
-        totalScore.setText(mainAct.score + "");
+        TextView totalScore = (TextView) findViewById(TotalScore);
+        totalScore.setText("최종점수 : " + score);
 
 
         Button backButton = (Button) findViewById((R.id.BackButton));

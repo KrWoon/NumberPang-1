@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.kkh.numberpang.GameoverActivity">
+
+    <FrameLayout
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true">
+
+        <Button
+            android:id="@+id/BackButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:layout_marginTop="50dp"
+            android:layout_marginLeft="0dp"
+            android:text="돌아가기" />
+
+        <TextView
+            android:id="@+id/TotalScore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="-50dp"
+            android:text="최종점수"
+            android:textColor="@android:color/black"
+            android:textSize="36sp" />
+
+    </FrameLayout>
+</RelativeLayout>
