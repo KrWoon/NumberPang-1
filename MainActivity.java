@@ -1,22 +1,22 @@
-package com.example.numberpang;
+package com.kkh.numberpang;
 
-import android.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.GestureDetector;
-import android.view.KeyEvent;
-import android.view.MotionEvent;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
-import java.util.Random;
 
-import static android.R.id.text1;
+import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
     int ranNumber = 1;
     int Save[][] = new int[3][3];       // 각 칸의 숫자 저장(데이터베이스)
     int saveRandom[] = new int[3];
+    int score = 0;
+    int combo = -1;
+    int item = 0;
+
     boolean horizon[] = new boolean[3];
     boolean vertical[] = new boolean[3];
     boolean diagonal[] = new boolean[2];
@@ -37,9 +37,25 @@ public class MainActivity extends AppCompatActivity {
         final TextView text9 = (TextView) findViewById(R.id.text9);
 
         final TextView Random1 = (TextView) findViewById(R.id.Random1);
+        final TextView Random2 = (TextView) findViewById(R.id.Random2);
+        final TextView Random3 = (TextView) findViewById(R.id.Random3);
+
+        final TextView Score = (TextView) findViewById(R.id.Score);
+        final TextView Item = (TextView) findViewById(R.id.Item);
+        final TextView temp = (TextView) findViewById(R.id.temp);
+
         newRandom();
         Random1.setText(ranNumber + "");
         saveRandom[0] = ranNumber;
+        newRandom();
+        Random2.setText(ranNumber + "");
+        saveRandom[1] = ranNumber;
+        newRandom();
+        Random3.setText(ranNumber + "");
+        saveRandom[2] = ranNumber;
+
+        Score.setText(score + "");
+        Item.setText(item + "");
 
         text1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,28 +64,34 @@ public class MainActivity extends AppCompatActivity {
                     text1.setText(saveRandom[0] + "");
                     Save[0][0] = saveRandom[0];
 
+                    Random1.setText(Random2.getText());
+                    Random2.setText(Random3.getText());
                     newRandom();
-                    Random1.setText(ranNumber + "");
-                    saveRandom[0] = ranNumber;
-
+                    Random3.setText(ranNumber + "");
+                    saveRandom[0] = saveRandom[1];
+                    saveRandom[1] = saveRandom[2];
+                    saveRandom[2] = ranNumber;
                     checkSave();
-
+                    Item.setText(item + "");
                     if(horizon[0] == true) {
                         text1.setText(""); Save[0][0] = 0;
                         text2.setText(""); Save[0][1] = 0;
                         text3.setText(""); Save[0][2] = 0;
+                        Score.setText(score + "");
                     }
 
                     if(vertical[0] == true) {
                         text1.setText(""); Save[0][0] = 0;
                         text4.setText(""); Save[1][0] = 0;
                         text7.setText(""); Save[2][0] = 0;
+                        Score.setText(score + "");
                     }
 
                     if(diagonal[0] == true) {
                         text1.setText(""); Save[0][0] = 0;
                         text5.setText(""); Save[1][1] = 0;
                         text9.setText(""); Save[2][2] = 0;
+                        Score.setText(score + "");
                     }
 
                     initBoolean();
@@ -85,21 +107,27 @@ public class MainActivity extends AppCompatActivity {
                     text2.setText(saveRandom[0] + "");
                     Save[0][1] = saveRandom[0];
 
+                    Random1.setText(Random2.getText());
+                    Random2.setText(Random3.getText());
                     newRandom();
-                    Random1.setText(ranNumber + "");
-                    saveRandom[0] = ranNumber;
+                    Random3.setText(ranNumber + "");
+                    saveRandom[0] = saveRandom[1];
+                    saveRandom[1] = saveRandom[2];
+                    saveRandom[2] = ranNumber;
                     checkSave();
-
+                    Item.setText(item + "");
                     if(horizon[0] == true) {
                         text1.setText(""); Save[0][0] = 0;
                         text2.setText(""); Save[0][1] = 0;
                         text3.setText(""); Save[0][2] = 0;
+                        Score.setText(score + "");
                     }
 
                     if(vertical[1] == true) {
                         text2.setText(""); Save[0][1] = 0;
                         text5.setText(""); Save[1][1] = 0;
                         text8.setText(""); Save[2][1] = 0;
+                        Score.setText(score + "");
                     }
 
                     initBoolean();
@@ -115,27 +143,34 @@ public class MainActivity extends AppCompatActivity {
                     text3.setText(saveRandom[0] + "");
                     Save[0][2] = saveRandom[0];
 
+                    Random1.setText(Random2.getText());
+                    Random2.setText(Random3.getText());
                     newRandom();
-                    Random1.setText(ranNumber + "");
-                    saveRandom[0] = ranNumber;
+                    Random3.setText(ranNumber + "");
+                    saveRandom[0] = saveRandom[1];
+                    saveRandom[1] = saveRandom[2];
+                    saveRandom[2] = ranNumber;
                     checkSave();
-
+                    Item.setText(item + "");
                     if(horizon[0] == true) {
                         text1.setText(""); Save[0][0] = 0;
                         text2.setText(""); Save[0][1] = 0;
                         text3.setText(""); Save[0][2] = 0;
+                        Score.setText(score + "");
                     }
 
                     if(vertical[2] == true) {
                         text3.setText(""); Save[0][2] = 0;
                         text6.setText(""); Save[1][2] = 0;
                         text9.setText(""); Save[2][2] = 0;
+                        Score.setText(score + "");
                     }
 
                     if(diagonal[1] == true) {
                         text3.setText(""); Save[0][2] = 0;
                         text5.setText(""); Save[1][1] = 0;
                         text7.setText(""); Save[2][0] = 0;
+                        Score.setText(score + "");
                     }
 
                     initBoolean();
@@ -151,21 +186,27 @@ public class MainActivity extends AppCompatActivity {
                     text4.setText(saveRandom[0] + "");
                     Save[1][0] = saveRandom[0];
 
+                    Random1.setText(Random2.getText());
+                    Random2.setText(Random3.getText());
                     newRandom();
-                    Random1.setText(ranNumber + "");
-                    saveRandom[0] = ranNumber;
+                    Random3.setText(ranNumber + "");
+                    saveRandom[0] = saveRandom[1];
+                    saveRandom[1] = saveRandom[2];
+                    saveRandom[2] = ranNumber;
                     checkSave();
-
+                    Item.setText(item + "");
                     if(horizon[1] == true) {
                         text4.setText(""); Save[1][0] = 0;
                         text5.setText(""); Save[1][1] = 0;
                         text6.setText(""); Save[1][2] = 0;
+                        Score.setText(score + "");
                     }
 
                     if(vertical[0] == true) {
                         text1.setText(""); Save[0][0] = 0;
                         text4.setText(""); Save[1][0] = 0;
                         text7.setText(""); Save[2][0] = 0;
+                        Score.setText(score + "");
                     }
 
                     initBoolean();
@@ -181,33 +222,41 @@ public class MainActivity extends AppCompatActivity {
                     text5.setText(saveRandom[0] + "");
                     Save[1][1] = saveRandom[0];
 
+                    Random1.setText(Random2.getText());
+                    Random2.setText(Random3.getText());
                     newRandom();
-                    Random1.setText(ranNumber + "");
-                    saveRandom[0] = ranNumber;
+                    Random3.setText(ranNumber + "");
+                    saveRandom[0] = saveRandom[1];
+                    saveRandom[1] = saveRandom[2];
+                    saveRandom[2] = ranNumber;
                     checkSave();
-
+                    Item.setText(item + "");
                     if(horizon[1] == true) {
                         text4.setText(""); Save[1][0] = 0;
                         text5.setText(""); Save[1][1] = 0;
                         text6.setText(""); Save[1][2] = 0;
+                        Score.setText(score + "");
                     }
 
                     if(vertical[1] == true) {
                         text2.setText(""); Save[0][1] = 0;
                         text5.setText(""); Save[1][1] = 0;
                         text8.setText(""); Save[2][1] = 0;
+                        Score.setText(score + "");
                     }
 
                     if(diagonal[0] == true) {
                         text1.setText(""); Save[0][0] = 0;
                         text5.setText(""); Save[1][1] = 0;
                         text9.setText(""); Save[2][2] = 0;
+                        Score.setText(score + "");
                     }
 
                     if(diagonal[1] == true) {
                         text3.setText(""); Save[0][2] = 0;
                         text5.setText(""); Save[1][1] = 0;
                         text7.setText(""); Save[2][0] = 0;
+                        Score.setText(score + "");
                     }
 
                     initBoolean();
@@ -223,21 +272,27 @@ public class MainActivity extends AppCompatActivity {
                     text6.setText(saveRandom[0] + "");
                     Save[1][2] = saveRandom[0];
 
+                    Random1.setText(Random2.getText());
+                    Random2.setText(Random3.getText());
                     newRandom();
-                    Random1.setText(ranNumber + "");
-                    saveRandom[0] = ranNumber;
+                    Random3.setText(ranNumber + "");
+                    saveRandom[0] = saveRandom[1];
+                    saveRandom[1] = saveRandom[2];
+                    saveRandom[2] = ranNumber;
                     checkSave();
-
+                    Item.setText(item + "");
                     if(horizon[1] == true) {
                         text4.setText(""); Save[1][0] = 0;
                         text5.setText(""); Save[1][1] = 0;
                         text6.setText(""); Save[1][2] = 0;
+                        Score.setText(score + "");
                     }
 
                     if(vertical[2] == true) {
                         text3.setText(""); Save[0][2] = 0;
                         text6.setText(""); Save[1][2] = 0;
                         text9.setText(""); Save[2][2] = 0;
+                        Score.setText(score + "");
                     }
 
                     initBoolean();
@@ -253,27 +308,34 @@ public class MainActivity extends AppCompatActivity {
                     text7.setText(saveRandom[0] + "");
                     Save[2][0] = saveRandom[0];
 
+                    Random1.setText(Random2.getText());
+                    Random2.setText(Random3.getText());
                     newRandom();
-                    Random1.setText(ranNumber + "");
-                    saveRandom[0] = ranNumber;
+                    Random3.setText(ranNumber + "");
+                    saveRandom[0] = saveRandom[1];
+                    saveRandom[1] = saveRandom[2];
+                    saveRandom[2] = ranNumber;
                     checkSave();
-
+                    Item.setText(item + "");
                     if(horizon[2] == true) {
-                        text7.setText(""); Save[1][0] = 0;
-                        text8.setText(""); Save[1][1] = 0;
-                        text9.setText(""); Save[1][2] = 0;
+                        text7.setText(""); Save[2][0] = 0;
+                        text8.setText(""); Save[2][1] = 0;
+                        text9.setText(""); Save[2][2] = 0;
+                        Score.setText(score + "");
                     }
 
                     if(vertical[0] == true) {
                         text1.setText(""); Save[0][0] = 0;
                         text4.setText(""); Save[1][0] = 0;
                         text7.setText(""); Save[2][0] = 0;
+                        Score.setText(score + "");
                     }
 
                     if(diagonal[1] == true) {
                         text3.setText(""); Save[0][2] = 0;
                         text5.setText(""); Save[1][1] = 0;
                         text7.setText(""); Save[2][0] = 0;
+                        Score.setText(score + "");
                     }
 
                     initBoolean();
@@ -289,21 +351,27 @@ public class MainActivity extends AppCompatActivity {
                     text8.setText(saveRandom[0] + "");
                     Save[2][1] = saveRandom[0];
 
+                    Random1.setText(Random2.getText());
+                    Random2.setText(Random3.getText());
                     newRandom();
-                    Random1.setText(ranNumber + "");
-                    saveRandom[0] = ranNumber;
+                    Random3.setText(ranNumber + "");
+                    saveRandom[0] = saveRandom[1];
+                    saveRandom[1] = saveRandom[2];
+                    saveRandom[2] = ranNumber;
                     checkSave();
-
+                    Item.setText(item + "");
                     if(horizon[2] == true) {
-                        text7.setText(""); Save[1][0] = 0;
-                        text8.setText(""); Save[1][1] = 0;
-                        text9.setText(""); Save[1][2] = 0;
+                        text7.setText(""); Save[2][0] = 0;
+                        text8.setText(""); Save[2][1] = 0;
+                        text9.setText(""); Save[2][2] = 0;
+                        Score.setText(score + "");
                     }
 
                     if(vertical[1] == true) {
                         text2.setText(""); Save[0][1] = 0;
                         text5.setText(""); Save[1][1] = 0;
                         text8.setText(""); Save[2][1] = 0;
+                        Score.setText(score + "");
                     }
 
                     initBoolean();
@@ -319,34 +387,79 @@ public class MainActivity extends AppCompatActivity {
                     text9.setText(saveRandom[0] + "");
                     Save[2][2] = saveRandom[0];
 
+                    Random1.setText(Random2.getText());
+                    Random2.setText(Random3.getText());
                     newRandom();
-                    Random1.setText(ranNumber + "");
-                    saveRandom[0] = ranNumber;
+                    Random3.setText(ranNumber + "");
+                    saveRandom[0] = saveRandom[1];
+                    saveRandom[1] = saveRandom[2];
+                    saveRandom[2] = ranNumber;
                     checkSave();
-
+                    Item.setText(item + "");
                     if(horizon[2] == true) {
-                        text7.setText(""); Save[1][0] = 0;
-                        text8.setText(""); Save[1][1] = 0;
-                        text9.setText(""); Save[1][2] = 0;
+                        text7.setText(""); Save[2][0] = 0;
+                        text8.setText(""); Save[2][1] = 0;
+                        text9.setText(""); Save[2][2] = 0;
+                        Score.setText(score + "");
                     }
 
                     if(vertical[2] == true) {
                         text3.setText(""); Save[0][2] = 0;
                         text6.setText(""); Save[1][2] = 0;
                         text9.setText(""); Save[2][2] = 0;
+                        Score.setText(score + "");
                     }
 
                     if(diagonal[0] == true) {
                         text1.setText(""); Save[0][0] = 0;
                         text5.setText(""); Save[1][1] = 0;
                         text9.setText(""); Save[2][2] = 0;
+                        Score.setText(score + "");
                     }
 
                     initBoolean();
                 }
             }
         });
+
+        Item.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (item> 0) {
+                    for (int i = 0; i < 3; i++) {
+                        for (int j = 0; j < 3; j++) {
+                            Save[i][j] = 0;
+                        }
+                    }
+                    text1.setText("");
+                    text2.setText("");
+                    text3.setText("");
+                    text4.setText("");
+                    text5.setText("");
+                    text6.setText("");
+                    text7.setText("");
+                    text8.setText("");
+                    text9.setText("");
+                    item --;
+                    Item.setText(item + "");
+                }
+            }
+
+        });
+
+        temp.setOnClickListener(new View.OnClickListener() {                                            //게임 재시작 텍스트 버튼
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "게임 재시작", Toast.LENGTH_SHORT).show();
+                Intent reIntent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(reIntent);
+                finish();
+            }
+
+        });
     }
+
+
 
     void newRandom() {
         Random r = new Random();
@@ -355,22 +468,43 @@ public class MainActivity extends AppCompatActivity {
 
     void checkSave() {
         // 가로의 합이 9면 true
-        for(int i=0; i<3; i++)
-            if(Save[i][0] + Save[i][1] + Save[i][2] == 9 && Save[i][0] > 0 && Save[i][1] > 0 && Save[i][2] > 0)
+        for(int i=0; i<3; i++) {
+            if (Save[i][0] + Save[i][1] + Save[i][2] == 9 && Save[i][0] > 0 && Save[i][1] > 0 && Save[i][2] > 0) {
                 horizon[i] = true;
+                score += 10;
+                combo ++;
+            }
 
+        }
         //세로의 합이 9면 true
-        for(int i=0; i<3; i++)
-            if(Save[0][i] + Save[1][i] + Save[2][i] == 9 && Save[0][i] > 0 && Save[1][i] > 0 && Save[2][i] > 0)
+        for(int i=0; i<3; i++) {
+            if (Save[0][i] + Save[1][i] + Save[2][i] == 9 && Save[0][i] > 0 && Save[1][i] > 0 && Save[2][i] > 0) {
                 vertical[i] = true;
+                score += 10;
+                combo ++;
+            }
 
+        }
         // 1 5 9 칸의 합이 9면 true
-        if(Save[0][0] + Save[1][1] + Save[2][2] == 9 && Save[0][0] > 0 && Save[1][1] > 0 && Save[2][2] > 0)
+        if(Save[0][0] + Save[1][1] + Save[2][2] == 9 && Save[0][0] > 0 && Save[1][1] > 0 && Save[2][2] > 0) {
             diagonal[0] = true;
+            score += 10;
+            combo ++;
+        }
 
         // 3 5 7 칸의 합이 9면 true
-        if(Save[2][0] + Save[1][1] + Save[0][2] == 9 && Save[0][2] > 0 && Save[1][1] > 0 && Save[2][0] > 0)
-            diagonal[0] = true;
+        if(Save[2][0] + Save[1][1] + Save[0][2] == 9 && Save[0][2] > 0 && Save[1][1] > 0 && Save[2][0] > 0) {
+            diagonal[1] = true;
+            score += 10;
+            combo ++;
+        }
+        if(horizon[0]==false && horizon[1]==false && horizon[2]==false && vertical[0]==false && vertical[1]==false && vertical[2]==false &&diagonal[0]== false && diagonal[1] ==false) {
+            combo = -1;
+        }
+        while(combo>=1) {                   //1콤보 이상이면 아이템 1개씩 증가
+            item ++;
+            combo --;
+        }
     }
 
     void initBoolean() {
@@ -381,6 +515,11 @@ public class MainActivity extends AppCompatActivity {
         diagonal[0] = false;
         diagonal[1] = false;
     }
-
+    void RestartClicked(View v) {                                                                      //게임 재시작
+        Toast.makeText(getApplicationContext(), "게임 재시작", Toast.LENGTH_SHORT).show();
+        Intent reIntent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(reIntent);
+        finish();
+    }
 
 }
