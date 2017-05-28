@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
@@ -18,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
     int item = 1;
     int i, j;
     int time = 61;
+    int comboStack = 0;
     boolean horizon[] = new boolean[3];
     boolean vertical[] = new boolean[3];
     boolean diagonal[] = new boolean[2];
@@ -575,8 +577,10 @@ public class MainActivity extends AppCompatActivity {
                 score += 10;
                 combo++;
                 time = time + 3;
+                comboStack++;
             }
         }
+
         //세로의 합이 9면 true
         for (int i = 0; i < 3; i++) {
             if (Save[0][i] + Save[1][i] + Save[2][i] == 9 && Save[0][i] > 0 && Save[1][i] > 0 && Save[2][i] > 0) {
@@ -584,14 +588,17 @@ public class MainActivity extends AppCompatActivity {
                 score += 10;
                 combo++;
                 time = time + 3;
+                comboStack++;
             }
         }
+
         // 1 5 9 칸의 합이 9면 true
         if (Save[0][0] + Save[1][1] + Save[2][2] == 9 && Save[0][0] > 0 && Save[1][1] > 0 && Save[2][2] > 0) {
             diagonal[0] = true;
             score += 10;
             combo++;
             time = time + 3;
+            comboStack++;
         }
 
         // 3 5 7 칸의 합이 9면 true
@@ -600,19 +607,41 @@ public class MainActivity extends AppCompatActivity {
             score += 10;
             combo++;
             time = time + 3;
+            comboStack++;
         }
 
         if (horizon[0] == false && horizon[1] == false && horizon[2] == false && vertical[0] == false && vertical[1] == false && vertical[2] == false && diagonal[0] == false && diagonal[1] == false) {
             combo = -1;
         }
 
-        while (combo >= 1) {                   //1콤보 이상이면 아이템 1개씩 증가
-            Toast.makeText(getApplicationContext(), combo + " Combo !", Toast.LENGTH_SHORT).show();
-            item++;
-            time = time + combo * combo;
-            score = score + 10 * combo * combo;
-            combo--;
+        if(combo==1 && comboStack >= 1) {
+            Toast.makeText(getApplicationContext(), combo + " Combo !" , Toast.LENGTH_SHORT).show();
+            item ++;
+            time=time+2;
+            score=score+20;
         }
+        if(combo==2 && comboStack == 1) {
+            Toast.makeText(getApplicationContext(), combo + " Combo !" , Toast.LENGTH_SHORT).show();
+            item ++;
+            time=time+5;
+            score=score+50;
+        }
+        if(combo==2 && comboStack >= 2) {
+            Toast.makeText(getApplicationContext(), combo + " Combo !" , Toast.LENGTH_SHORT).show();
+            item = item+2;
+            time=time+7;
+            score=score+70;
+        }
+
+        if(combo==3 && comboStack == 3) {
+            Toast.makeText(getApplicationContext(), combo + " Combo !" , Toast.LENGTH_SHORT).show();
+            item = item+10;
+            time=time+100;
+            score=score+1000;
+        }
+
+        comboStack = 0;
+
     }
 
     void initBoolean() {
