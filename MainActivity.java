@@ -1,4 +1,4 @@
-package com.kkh.numberpang;
+package com.example.numberpang;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
     int score = 0;
     int combo = -1;
     int item = 1;
-    int i,j;
+    int i, j;
     int time = 61;
     boolean horizon[] = new boolean[3];
     boolean vertical[] = new boolean[3];
@@ -62,46 +62,56 @@ public class MainActivity extends AppCompatActivity {
         Item.setText(item + "");
 
 
-
         text1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(text1.getText() == "") {
-                    text1.setText(saveRandom[0] + "");
-                    Save[0][0] = saveRandom[0];
+                if (text1.getText() == "") {
+                    text1.setText(saveRandom[0] + "");   // 칸에 값 입력
+                    Save[0][0] = saveRandom[0];          // Save 데이터에 값 저장
 
-                    Random1.setText(Random2.getText());
+                    Random1.setText(Random2.getText());     // 미리 보여주기 숫자 이동
                     Random2.setText(Random3.getText());
                     newRandom();
                     Random3.setText(ranNumber + "");
                     saveRandom[0] = saveRandom[1];
                     saveRandom[1] = saveRandom[2];
                     saveRandom[2] = ranNumber;
-                    checkSave();
+
+                    checkSave();                             // 콤보가 있는지 검사
                     Item.setText(item + "");
                     textTimer.setText(time + "초");
-                    if(horizon[0] == true) {
-                        text1.setText(""); Save[0][0] = 0;
-                        text2.setText(""); Save[0][1] = 0;
-                        text3.setText(""); Save[0][2] = 0;
+                    if (horizon[0] == true) {
+                        text1.setText("");
+                        Save[0][0] = 0;
+                        text2.setText("");
+                        Save[0][1] = 0;
+                        text3.setText("");
+                        Save[0][2] = 0;
                         Score.setText(score + "");
                     }
 
-                    if(vertical[0] == true) {
-                        text1.setText(""); Save[0][0] = 0;
-                        text4.setText(""); Save[1][0] = 0;
-                        text7.setText(""); Save[2][0] = 0;
+                    if (vertical[0] == true) {
+                        text1.setText("");
+                        Save[0][0] = 0;
+                        text4.setText("");
+                        Save[1][0] = 0;
+                        text7.setText("");
+                        Save[2][0] = 0;
                         Score.setText(score + "");
                     }
 
-                    if(diagonal[0] == true) {
-                        text1.setText(""); Save[0][0] = 0;
-                        text5.setText(""); Save[1][1] = 0;
-                        text9.setText(""); Save[2][2] = 0;
+                    if (diagonal[0] == true) {
+                        text1.setText("");
+                        Save[0][0] = 0;
+                        text5.setText("");
+                        Save[1][1] = 0;
+                        text9.setText("");
+                        Save[2][2] = 0;
                         Score.setText(score + "");
                     }
 
-                    initBoolean();
+                    checkGameover();      // 칸이 가득차면 게임오버
+                    initBoolean();        // 콤보 검사한 값 초기화
                 }
             }
         });
@@ -110,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
         text2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(text2.getText() == "") {
+                if (text2.getText() == "") {
                     text2.setText(saveRandom[0] + "");
                     Save[0][1] = saveRandom[0];
 
@@ -124,20 +134,27 @@ public class MainActivity extends AppCompatActivity {
                     checkSave();
                     Item.setText(item + "");
                     textTimer.setText(time + "초");
-                    if(horizon[0] == true) {
-                        text1.setText(""); Save[0][0] = 0;
-                        text2.setText(""); Save[0][1] = 0;
-                        text3.setText(""); Save[0][2] = 0;
+                    if (horizon[0] == true) {
+                        text1.setText("");
+                        Save[0][0] = 0;
+                        text2.setText("");
+                        Save[0][1] = 0;
+                        text3.setText("");
+                        Save[0][2] = 0;
                         Score.setText(score + "");
                     }
 
-                    if(vertical[1] == true) {
-                        text2.setText(""); Save[0][1] = 0;
-                        text5.setText(""); Save[1][1] = 0;
-                        text8.setText(""); Save[2][1] = 0;
+                    if (vertical[1] == true) {
+                        text2.setText("");
+                        Save[0][1] = 0;
+                        text5.setText("");
+                        Save[1][1] = 0;
+                        text8.setText("");
+                        Save[2][1] = 0;
                         Score.setText(score + "");
                     }
 
+                    checkGameover();
                     initBoolean();
                 }
             }
@@ -147,7 +164,7 @@ public class MainActivity extends AppCompatActivity {
         text3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(text3.getText() == "") {
+                if (text3.getText() == "") {
                     text3.setText(saveRandom[0] + "");
                     Save[0][2] = saveRandom[0];
 
@@ -161,27 +178,37 @@ public class MainActivity extends AppCompatActivity {
                     checkSave();
                     Item.setText(item + "");
                     textTimer.setText(time + "초");
-                    if(horizon[0] == true) {
-                        text1.setText(""); Save[0][0] = 0;
-                        text2.setText(""); Save[0][1] = 0;
-                        text3.setText(""); Save[0][2] = 0;
+                    if (horizon[0] == true) {
+                        text1.setText("");
+                        Save[0][0] = 0;
+                        text2.setText("");
+                        Save[0][1] = 0;
+                        text3.setText("");
+                        Save[0][2] = 0;
                         Score.setText(score + "");
                     }
 
-                    if(vertical[2] == true) {
-                        text3.setText(""); Save[0][2] = 0;
-                        text6.setText(""); Save[1][2] = 0;
-                        text9.setText(""); Save[2][2] = 0;
+                    if (vertical[2] == true) {
+                        text3.setText("");
+                        Save[0][2] = 0;
+                        text6.setText("");
+                        Save[1][2] = 0;
+                        text9.setText("");
+                        Save[2][2] = 0;
                         Score.setText(score + "");
                     }
 
-                    if(diagonal[1] == true) {
-                        text3.setText(""); Save[0][2] = 0;
-                        text5.setText(""); Save[1][1] = 0;
-                        text7.setText(""); Save[2][0] = 0;
+                    if (diagonal[1] == true) {
+                        text3.setText("");
+                        Save[0][2] = 0;
+                        text5.setText("");
+                        Save[1][1] = 0;
+                        text7.setText("");
+                        Save[2][0] = 0;
                         Score.setText(score + "");
                     }
 
+                    checkGameover();
                     initBoolean();
                 }
             }
@@ -191,7 +218,7 @@ public class MainActivity extends AppCompatActivity {
         text4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(text4.getText() == "") {
+                if (text4.getText() == "") {
                     text4.setText(saveRandom[0] + "");
                     Save[1][0] = saveRandom[0];
 
@@ -205,20 +232,27 @@ public class MainActivity extends AppCompatActivity {
                     checkSave();
                     Item.setText(item + "");
                     textTimer.setText(time + "초");
-                    if(horizon[1] == true) {
-                        text4.setText(""); Save[1][0] = 0;
-                        text5.setText(""); Save[1][1] = 0;
-                        text6.setText(""); Save[1][2] = 0;
+                    if (horizon[1] == true) {
+                        text4.setText("");
+                        Save[1][0] = 0;
+                        text5.setText("");
+                        Save[1][1] = 0;
+                        text6.setText("");
+                        Save[1][2] = 0;
                         Score.setText(score + "");
                     }
 
-                    if(vertical[0] == true) {
-                        text1.setText(""); Save[0][0] = 0;
-                        text4.setText(""); Save[1][0] = 0;
-                        text7.setText(""); Save[2][0] = 0;
+                    if (vertical[0] == true) {
+                        text1.setText("");
+                        Save[0][0] = 0;
+                        text4.setText("");
+                        Save[1][0] = 0;
+                        text7.setText("");
+                        Save[2][0] = 0;
                         Score.setText(score + "");
                     }
 
+                    checkGameover();
                     initBoolean();
                 }
             }
@@ -228,7 +262,7 @@ public class MainActivity extends AppCompatActivity {
         text5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(text5.getText() == "") {
+                if (text5.getText() == "") {
                     text5.setText(saveRandom[0] + "");
                     Save[1][1] = saveRandom[0];
 
@@ -242,34 +276,47 @@ public class MainActivity extends AppCompatActivity {
                     checkSave();
                     Item.setText(item + "");
                     textTimer.setText(time + "초");
-                    if(horizon[1] == true) {
-                        text4.setText(""); Save[1][0] = 0;
-                        text5.setText(""); Save[1][1] = 0;
-                        text6.setText(""); Save[1][2] = 0;
+                    if (horizon[1] == true) {
+                        text4.setText("");
+                        Save[1][0] = 0;
+                        text5.setText("");
+                        Save[1][1] = 0;
+                        text6.setText("");
+                        Save[1][2] = 0;
                         Score.setText(score + "");
                     }
 
-                    if(vertical[1] == true) {
-                        text2.setText(""); Save[0][1] = 0;
-                        text5.setText(""); Save[1][1] = 0;
-                        text8.setText(""); Save[2][1] = 0;
+                    if (vertical[1] == true) {
+                        text2.setText("");
+                        Save[0][1] = 0;
+                        text5.setText("");
+                        Save[1][1] = 0;
+                        text8.setText("");
+                        Save[2][1] = 0;
                         Score.setText(score + "");
                     }
 
-                    if(diagonal[0] == true) {
-                        text1.setText(""); Save[0][0] = 0;
-                        text5.setText(""); Save[1][1] = 0;
-                        text9.setText(""); Save[2][2] = 0;
+                    if (diagonal[0] == true) {
+                        text1.setText("");
+                        Save[0][0] = 0;
+                        text5.setText("");
+                        Save[1][1] = 0;
+                        text9.setText("");
+                        Save[2][2] = 0;
                         Score.setText(score + "");
                     }
 
-                    if(diagonal[1] == true) {
-                        text3.setText(""); Save[0][2] = 0;
-                        text5.setText(""); Save[1][1] = 0;
-                        text7.setText(""); Save[2][0] = 0;
+                    if (diagonal[1] == true) {
+                        text3.setText("");
+                        Save[0][2] = 0;
+                        text5.setText("");
+                        Save[1][1] = 0;
+                        text7.setText("");
+                        Save[2][0] = 0;
                         Score.setText(score + "");
                     }
 
+                    checkGameover();
                     initBoolean();
                 }
             }
@@ -279,7 +326,7 @@ public class MainActivity extends AppCompatActivity {
         text6.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(text6.getText() == "") {
+                if (text6.getText() == "") {
                     text6.setText(saveRandom[0] + "");
                     Save[1][2] = saveRandom[0];
 
@@ -293,20 +340,27 @@ public class MainActivity extends AppCompatActivity {
                     checkSave();
                     Item.setText(item + "");
                     textTimer.setText(time + "초");
-                    if(horizon[1] == true) {
-                        text4.setText(""); Save[1][0] = 0;
-                        text5.setText(""); Save[1][1] = 0;
-                        text6.setText(""); Save[1][2] = 0;
+                    if (horizon[1] == true) {
+                        text4.setText("");
+                        Save[1][0] = 0;
+                        text5.setText("");
+                        Save[1][1] = 0;
+                        text6.setText("");
+                        Save[1][2] = 0;
                         Score.setText(score + "");
                     }
 
-                    if(vertical[2] == true) {
-                        text3.setText(""); Save[0][2] = 0;
-                        text6.setText(""); Save[1][2] = 0;
-                        text9.setText(""); Save[2][2] = 0;
+                    if (vertical[2] == true) {
+                        text3.setText("");
+                        Save[0][2] = 0;
+                        text6.setText("");
+                        Save[1][2] = 0;
+                        text9.setText("");
+                        Save[2][2] = 0;
                         Score.setText(score + "");
                     }
 
+                    checkGameover();
                     initBoolean();
                 }
             }
@@ -316,7 +370,7 @@ public class MainActivity extends AppCompatActivity {
         text7.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(text7.getText() == "") {
+                if (text7.getText() == "") {
                     text7.setText(saveRandom[0] + "");
                     Save[2][0] = saveRandom[0];
 
@@ -330,27 +384,37 @@ public class MainActivity extends AppCompatActivity {
                     checkSave();
                     Item.setText(item + "");
                     textTimer.setText(time + "초");
-                    if(horizon[2] == true) {
-                        text7.setText(""); Save[2][0] = 0;
-                        text8.setText(""); Save[2][1] = 0;
-                        text9.setText(""); Save[2][2] = 0;
+                    if (horizon[2] == true) {
+                        text7.setText("");
+                        Save[2][0] = 0;
+                        text8.setText("");
+                        Save[2][1] = 0;
+                        text9.setText("");
+                        Save[2][2] = 0;
                         Score.setText(score + "");
                     }
 
-                    if(vertical[0] == true) {
-                        text1.setText(""); Save[0][0] = 0;
-                        text4.setText(""); Save[1][0] = 0;
-                        text7.setText(""); Save[2][0] = 0;
+                    if (vertical[0] == true) {
+                        text1.setText("");
+                        Save[0][0] = 0;
+                        text4.setText("");
+                        Save[1][0] = 0;
+                        text7.setText("");
+                        Save[2][0] = 0;
                         Score.setText(score + "");
                     }
 
-                    if(diagonal[1] == true) {
-                        text3.setText(""); Save[0][2] = 0;
-                        text5.setText(""); Save[1][1] = 0;
-                        text7.setText(""); Save[2][0] = 0;
+                    if (diagonal[1] == true) {
+                        text3.setText("");
+                        Save[0][2] = 0;
+                        text5.setText("");
+                        Save[1][1] = 0;
+                        text7.setText("");
+                        Save[2][0] = 0;
                         Score.setText(score + "");
                     }
 
+                    checkGameover();
                     initBoolean();
                 }
             }
@@ -360,7 +424,7 @@ public class MainActivity extends AppCompatActivity {
         text8.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(text8.getText() == "") {
+                if (text8.getText() == "") {
                     text8.setText(saveRandom[0] + "");
                     Save[2][1] = saveRandom[0];
 
@@ -374,20 +438,27 @@ public class MainActivity extends AppCompatActivity {
                     checkSave();
                     Item.setText(item + "");
                     textTimer.setText(time + "초");
-                    if(horizon[2] == true) {
-                        text7.setText(""); Save[2][0] = 0;
-                        text8.setText(""); Save[2][1] = 0;
-                        text9.setText(""); Save[2][2] = 0;
+                    if (horizon[2] == true) {
+                        text7.setText("");
+                        Save[2][0] = 0;
+                        text8.setText("");
+                        Save[2][1] = 0;
+                        text9.setText("");
+                        Save[2][2] = 0;
                         Score.setText(score + "");
                     }
 
-                    if(vertical[1] == true) {
-                        text2.setText(""); Save[0][1] = 0;
-                        text5.setText(""); Save[1][1] = 0;
-                        text8.setText(""); Save[2][1] = 0;
+                    if (vertical[1] == true) {
+                        text2.setText("");
+                        Save[0][1] = 0;
+                        text5.setText("");
+                        Save[1][1] = 0;
+                        text8.setText("");
+                        Save[2][1] = 0;
                         Score.setText(score + "");
                     }
 
+                    checkGameover();
                     initBoolean();
                 }
             }
@@ -397,7 +468,7 @@ public class MainActivity extends AppCompatActivity {
         text9.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(text9.getText() == "") {
+                if (text9.getText() == "") {
                     text9.setText(saveRandom[0] + "");
                     Save[2][2] = saveRandom[0];
 
@@ -411,27 +482,37 @@ public class MainActivity extends AppCompatActivity {
                     checkSave();
                     Item.setText(item + "");
                     textTimer.setText(time + "초");
-                    if(horizon[2] == true) {
-                        text7.setText(""); Save[2][0] = 0;
-                        text8.setText(""); Save[2][1] = 0;
-                        text9.setText(""); Save[2][2] = 0;
+                    if (horizon[2] == true) {
+                        text7.setText("");
+                        Save[2][0] = 0;
+                        text8.setText("");
+                        Save[2][1] = 0;
+                        text9.setText("");
+                        Save[2][2] = 0;
                         Score.setText(score + "");
                     }
 
-                    if(vertical[2] == true) {
-                        text3.setText(""); Save[0][2] = 0;
-                        text6.setText(""); Save[1][2] = 0;
-                        text9.setText(""); Save[2][2] = 0;
+                    if (vertical[2] == true) {
+                        text3.setText("");
+                        Save[0][2] = 0;
+                        text6.setText("");
+                        Save[1][2] = 0;
+                        text9.setText("");
+                        Save[2][2] = 0;
                         Score.setText(score + "");
                     }
 
-                    if(diagonal[0] == true) {
-                        text1.setText(""); Save[0][0] = 0;
-                        text5.setText(""); Save[1][1] = 0;
-                        text9.setText(""); Save[2][2] = 0;
+                    if (diagonal[0] == true) {
+                        text1.setText("");
+                        Save[0][0] = 0;
+                        text5.setText("");
+                        Save[1][1] = 0;
+                        text9.setText("");
+                        Save[2][2] = 0;
                         Score.setText(score + "");
                     }
 
+                    checkGameover();
                     initBoolean();
                 }
             }
@@ -440,7 +521,7 @@ public class MainActivity extends AppCompatActivity {
         Item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (item> 0) {
+                if (item > 0) {
                     for (int i = 0; i < 3; i++) {
                         for (int j = 0; j < 3; j++) {
                             Save[i][j] = 0;
@@ -457,7 +538,7 @@ public class MainActivity extends AppCompatActivity {
                     text8.setText("");
                     text9.setText("");
 
-                    item --;
+                    item--;
                     Item.setText(item + "");
                     time = time + 10;
                     textTimer.setText(time + "초");
@@ -481,7 +562,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
     void newRandom() {
         Random r = new Random();
         this.ranNumber = r.nextInt(5) + 1;
@@ -490,66 +570,68 @@ public class MainActivity extends AppCompatActivity {
 
     void checkSave() {
         // 가로의 합이 9면 true
-        for(int i=0; i<3; i++) {
+        for (int i = 0; i < 3; i++) {
             if (Save[i][0] + Save[i][1] + Save[i][2] == 9 && Save[i][0] > 0 && Save[i][1] > 0 && Save[i][2] > 0) {
                 horizon[i] = true;
                 score += 10;
-                combo ++;
-                time=time+3;
+                combo++;
+                time = time + 3;
             }
         }
         //세로의 합이 9면 true
-        for(int i=0; i<3; i++) {
+        for (int i = 0; i < 3; i++) {
             if (Save[0][i] + Save[1][i] + Save[2][i] == 9 && Save[0][i] > 0 && Save[1][i] > 0 && Save[2][i] > 0) {
                 vertical[i] = true;
                 score += 10;
-                combo ++;
-                time=time+3;
+                combo++;
+                time = time + 3;
             }
         }
         // 1 5 9 칸의 합이 9면 true
-        if(Save[0][0] + Save[1][1] + Save[2][2] == 9 && Save[0][0] > 0 && Save[1][1] > 0 && Save[2][2] > 0) {
+        if (Save[0][0] + Save[1][1] + Save[2][2] == 9 && Save[0][0] > 0 && Save[1][1] > 0 && Save[2][2] > 0) {
             diagonal[0] = true;
             score += 10;
-            combo ++;
-            time=time+3;
+            combo++;
+            time = time + 3;
         }
 
         // 3 5 7 칸의 합이 9면 true
-        if(Save[2][0] + Save[1][1] + Save[0][2] == 9 && Save[0][2] > 0 && Save[1][1] > 0 && Save[2][0] > 0) {
+        if (Save[2][0] + Save[1][1] + Save[0][2] == 9 && Save[0][2] > 0 && Save[1][1] > 0 && Save[2][0] > 0) {
             diagonal[1] = true;
             score += 10;
-            combo ++;
-            time=time+3;
+            combo++;
+            time = time + 3;
         }
 
-        if(horizon[0]==false && horizon[1]==false && horizon[2]==false && vertical[0]==false && vertical[1]==false && vertical[2]==false &&diagonal[0]== false && diagonal[1] ==false) {
+        if (horizon[0] == false && horizon[1] == false && horizon[2] == false && vertical[0] == false && vertical[1] == false && vertical[2] == false && diagonal[0] == false && diagonal[1] == false) {
             combo = -1;
         }
 
-        while(combo>=1) {                   //1콤보 이상이면 아이템 1개씩 증가
-            Toast.makeText(getApplicationContext(), combo + " Combo !" , Toast.LENGTH_SHORT).show();
-            item ++;
-            time=time+combo*combo;
-            score=score+10*combo*combo;
-            combo --;
+        while (combo >= 1) {                   //1콤보 이상이면 아이템 1개씩 증가
+            Toast.makeText(getApplicationContext(), combo + " Combo !", Toast.LENGTH_SHORT).show();
+            item++;
+            time = time + combo * combo;
+            score = score + 10 * combo * combo;
+            combo--;
         }
     }
 
     void initBoolean() {
-        for(int i=0;i<3;i++) {
+        for (int i = 0; i < 3; i++) {
             horizon[i] = false;
             vertical[i] = false;
         }
         diagonal[0] = false;
         diagonal[1] = false;
     }
+
     void RestartClicked(View v) {                                                                      //게임 재시작
         Toast.makeText(getApplicationContext(), "게임 재시작", Toast.LENGTH_SHORT).show();
         Intent reIntent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(reIntent);
         finish();
     }
+
     void startClicked(View v) {                                                                      //게임 재시작
         Toast.makeText(getApplicationContext(), "게임 시작", Toast.LENGTH_SHORT).show();
         final TextView textTimer = (TextView) findViewById(R.id.textTimer);
@@ -560,7 +642,7 @@ public class MainActivity extends AppCompatActivity {
                 textTimer.setText(time + "초");
                 if (time == 0) {
                     cancel();
-                    Toast.makeText(getApplicationContext(), "최종점수는 "+score+"입니다" , Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "최종점수는 " + score + "입니다", Toast.LENGTH_LONG).show();
                     Intent reIntent = new Intent(getApplicationContext(), MainActivity.class);
                     startActivity(reIntent);
                     finish();
@@ -571,5 +653,22 @@ public class MainActivity extends AppCompatActivity {
 
             }
         }.start();
+    }
+
+    void checkGameover() {      // 칸이 가득차면 게임오버
+        int count = 0;
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (Save[i][j] > 0) {
+                    count++;
+                }
+            }
+        }
+
+        if (count == 9) {
+            Toast.makeText(getApplicationContext(), "최종점수는 " + score + "입니다", Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(getApplicationContext(), GameoverActivity.class);
+            startActivity(intent);
+        }
     }
 }
