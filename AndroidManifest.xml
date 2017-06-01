@@ -18,14 +18,16 @@
         </activity>
         <activity
             android:name=".GameOverActivity"
-            android:theme="@style/Theme.AppCompat.Dialog" />
-        <activity android:name=".PracticeActivity" />
+            android:theme="@style/Theme.AppCompat.Light.Dialog" />
         <activity android:name=".ModeActivity" />
         <activity android:name=".ChallengeActivity" />
         <activity android:name=".TimeAttackActivity" />
-        <activity android:name=".OptionActivity" />
+        <activity android:name=".OptionActivity"
+            android:theme="@style/Theme.AppCompat.Light.Dialog"/>
         <activity android:name=".RankActivty" />
-        <activity android:name=".InfiniteActivity"></activity>
+        <activity android:name=".InfiniteActivity" />
+        <activity android:name=".PauseActivity"
+            android:theme="@style/Theme.AppCompat.Light.Dialog"></activity>
     </application>
 
 </manifest>
