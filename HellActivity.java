@@ -17,16 +17,15 @@ import android.widget.Toast;
 import java.util.Calendar;
 import java.util.Random;
 
-public class TimeAttackActivity extends AppCompatActivity implements View.OnClickListener{
+public class HellActivity extends AppCompatActivity implements View.OnClickListener{
     int ranNumber = 1;
     int saveData[][] = new int[3][3];       // 각 칸의 숫자 저장(데이터베이스)
     int saveRandom[] = new int[3];
-    final int lineMax = 15;
-    int line = lineMax;
+    int score = 0;
     int combo = 0;
-    int item = 3;
+    int item = 1;
     int i, j;
-    int time = 0;
+    int time = 100;
     int comboStack = 0;
     boolean horizon[] = new boolean[3];
     boolean vertical[] = new boolean[3];
@@ -35,9 +34,20 @@ public class TimeAttackActivity extends AppCompatActivity implements View.OnClic
     SharedPreferences backgroundPreferences = null;
     SharedPreferences effectPreferences = null;
 
-    MediaPlayer mp = null;
+    MediaPlayer mp  = null;
 
-    final int itemMax = 5;
+    final int timeItem = 50;
+    final int timeOne = 20;
+    final int timeTwo = 10;
+    final int timeThree = 25;
+    final int timeFour = 100;
+    final int scoreOne = 30;
+    final int scoreTwo = 60;
+    final int scoreThree = 150;
+    final int scoreFour = 600;
+    final int scoreMax = 99999;
+    final int itemMax = 3;
+    final int timeMax = 999;
 
     final TextView text[][] = new TextView[3][3];
     final int[][] textid = {{R.id.text1, R.id.text2, R.id.text3},
@@ -50,22 +60,26 @@ public class TimeAttackActivity extends AppCompatActivity implements View.OnClic
     TextView itemText = null;
     TextView timerText = null;
 
-    CountDownTimer timeattackTimer = new CountDownTimer(2147483647, 100) {
+    CountDownTimer hellTimer = new CountDownTimer(2147483647, 100) {
 
         public void onTick(long millisUntilFinished) {
-            time=time+1;
-            timerText.setText((double)(time/10.0) + "초");
-            if (line <= 0 ) {
+            time--;
+            if(time>=timeMax) {
+                time = timeMax;
+            }
+
+            if(time == 0) {
                 cancel();
                 db = openOrCreateDatabase("scoreDB.db", MODE_PRIVATE, null);
-                createTable("TimeAttack");
-                insertData((double)(time/10.0), getDate());
+                createTable("Hell");
+                insertData(score, getDate());
                 Intent intent = new Intent(getApplicationContext(), GameOverActivity.class);
-                intent.putExtra("TotalScore", "최종기록\n"+ (double)(time/10.0)+"초");
-                intent.putExtra("modePAUSE", "timeattack");
+                intent.putExtra("TotalScore", "최종점수 : " + score + "점");
+                intent.putExtra("modePAUSE", "hell");
                 startActivity(intent);
                 finish();
             }
+            timerText.setText((double)(time/10.0) + "초");
         }
         public void onFinish() {
 
@@ -78,7 +92,7 @@ public class TimeAttackActivity extends AppCompatActivity implements View.OnClic
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_time_attack);
+        setContentView(R.layout.activity_hell);
 
         for(i=0; i<3; i++) {
             for(j=0; j<3; j++) {
@@ -107,7 +121,7 @@ public class TimeAttackActivity extends AppCompatActivity implements View.OnClic
         randomText3.setText(ranNumber + "");
         saveRandom[2] = ranNumber;
 
-        scoreText.setText(line+"줄");
+        scoreText.setText(score + "");
         itemText.setText(item + "");
 
         soundpool = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
@@ -119,10 +133,10 @@ public class TimeAttackActivity extends AppCompatActivity implements View.OnClic
         for(i=0; i<3; i++) {
             for(j=0; j<3; j++) {
                 if (v.getId() == textid[i][j]) {
-                    if(effectPreferences.getBoolean("effect", true))
-                        soundpool.play(soundId, 1.0F, 1.0F,  1,  0,  1.0F); // soundId, leftVolum, rightVolum, priority, loop, rate
-
                     if (text[i][j].getText() == "") {
+                        if(effectPreferences.getBoolean("effect", true))
+                            soundpool.play(soundId, 1.0F, 1.0F,  1,  0,  1.0F); // soundId, leftVolum, rightVolum, priority, loop, rate
+
                         text[i][j].setText(saveRandom[0] + "");
                         saveData[i][j] = saveRandom[0];
 
@@ -133,7 +147,7 @@ public class TimeAttackActivity extends AppCompatActivity implements View.OnClic
                         saveRandom[0] = saveRandom[1];
                         saveRandom[1] = saveRandom[2];
                         saveRandom[2] = ranNumber;
-
+                        unLuckySeven();
                         checkCombo();
 
                         if (horizon[i] == true) {
@@ -180,6 +194,7 @@ public class TimeAttackActivity extends AppCompatActivity implements View.OnClic
                 }
                 item--;
                 itemText.setText(item + "");
+                time = time + timeItem;
                 Toast toast = Toast.makeText(getApplicationContext(), "Combo", Toast.LENGTH_SHORT);
                 toast.setGravity(Gravity.CENTER, 0, -100);
                 toast.setView(getLayoutInflater().inflate(R.layout.clear, null));
@@ -201,13 +216,14 @@ public class TimeAttackActivity extends AppCompatActivity implements View.OnClic
             if (saveData[i][0] + saveData[i][1] + saveData[i][2] == 9
                     && saveData[i][0] > 0 && saveData[i][1] > 0 && saveData[i][2] > 0) {
                 horizon[i] = true;
-                if(line>0) {
-                    line--;
+                if(score<=scoreMax-scoreOne) {
+                    score += scoreOne;
                 }
                 else {
-                    line=0;
+                    score = scoreMax;
                 }
                 combo++;
+                time = time + timeOne;
                 comboStack++;
             }
         }
@@ -217,13 +233,14 @@ public class TimeAttackActivity extends AppCompatActivity implements View.OnClic
             if (saveData[0][i] + saveData[1][i] + saveData[2][i] == 9
                     && saveData[0][i] > 0 && saveData[1][i] > 0 && saveData[2][i] > 0) {
                 vertical[i] = true;
-                if(line>0) {
-                    line--;
+                if(score<=scoreMax-scoreOne) {
+                    score += scoreOne;
                 }
                 else {
-                    line=0;
+                    score = scoreMax;
                 }
                 combo++;
+                time = time + timeOne;
                 comboStack++;
             }
         }
@@ -232,13 +249,14 @@ public class TimeAttackActivity extends AppCompatActivity implements View.OnClic
         if (saveData[0][0] + saveData[1][1] + saveData[2][2] == 9
                 && saveData[0][0] > 0 && saveData[1][1] > 0 && saveData[2][2] > 0) {
             diagonal[0] = true;
-            if(line>0) {
-                line--;
+            if(score<=scoreMax-scoreOne) {
+                score += scoreOne;
             }
             else {
-                line=0;
+                score = scoreMax;
             }
             combo++;
+            time = time + timeOne;
             comboStack++;
         }
 
@@ -246,13 +264,14 @@ public class TimeAttackActivity extends AppCompatActivity implements View.OnClic
         if (saveData[2][0] + saveData[1][1] + saveData[0][2] == 9
                 && saveData[0][2] > 0 && saveData[1][1] > 0 && saveData[2][0] > 0) {
             diagonal[1] = true;
-            if(line>0) {
-                line--;
+            if(score<=scoreMax-scoreOne) {
+                score += scoreOne;
             }
             else {
-                line=0;
+                score = scoreMax;
             }
             combo++;
+            time = time + timeOne;
             comboStack++;
         }
 
@@ -270,12 +289,13 @@ public class TimeAttackActivity extends AppCompatActivity implements View.OnClic
             if(item<itemMax) {
                 item++;
             }
-            /*if(score<=scoreMax-10) {
-                score += 20;
+            time=time+timeTwo;
+            if(score<=scoreMax-scoreTwo) {
+                score += scoreTwo;
             }
             else {
                 score = scoreMax;
-            }*/
+            }
         }
         if(combo==3 && comboStack == 1) {
             Toast toast = Toast.makeText(getApplicationContext(), "Combo", Toast.LENGTH_SHORT);
@@ -285,12 +305,13 @@ public class TimeAttackActivity extends AppCompatActivity implements View.OnClic
             if(item<itemMax) {
                 item++;
             }
-            /*if(score<=scoreMax-50) {
-                score += 50;
+            time=time+timeThree;
+            if(score<=scoreMax-scoreThree) {
+                score += scoreThree;
             }
             else {
                 score = scoreMax;
-            }*/
+            }
         }
         if(combo==3 && comboStack >= 2) {
             Toast toast = Toast.makeText(getApplicationContext(), "Combo", Toast.LENGTH_SHORT);
@@ -303,33 +324,103 @@ public class TimeAttackActivity extends AppCompatActivity implements View.OnClic
             if(item<itemMax) {
                 item++;
             }
-            /*if(score<=scoreMax-70) {
-                score += 70;
+            time=time+timeThree+timeTwo;
+            if(score<=scoreMax-(scoreThree+scoreTwo)) {
+                score += (scoreThree+scoreTwo);
             }
             else {
                 score = scoreMax;
-            }*/
+            }
         }
 
-        if(combo==4) {
+        if(combo==4 && comboStack==1) {
             Toast toast = Toast.makeText(getApplicationContext(), "Combo", Toast.LENGTH_SHORT);
             toast.setGravity(Gravity.CENTER, 0, -100);
             toast.setView(getLayoutInflater().inflate(R.layout.fourcombo, null));
             toast.show();
-            item = 5;
-            /*if(score<=scoreMax-300) {
-                score += 300;
+            item = itemMax;
+            time=time+timeFour;
+            if(score<=scoreMax-scoreFour) {
+                score += scoreFour;
             }
             else {
                 score = scoreMax;
-            }*/
+            }
+        }
+        if(combo==4 && comboStack==2) {
+            Toast toast = Toast.makeText(getApplicationContext(), "Combo", Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER, 0, -100);
+            toast.setView(getLayoutInflater().inflate(R.layout.fourcombo, null));
+            toast.show();
+            item = itemMax;
+            time=time+timeFour+timeThree;
+            if(score<=scoreMax-(scoreFour+scoreThree)) {
+                score += (scoreFour+scoreThree);
+            }
+            else {
+                score = scoreMax;
+            }
+        }
+        if(combo==4 && comboStack>=3) {
+            Toast toast = Toast.makeText(getApplicationContext(), "Combo", Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER, 0, -100);
+            toast.setView(getLayoutInflater().inflate(R.layout.fourcombo, null));
+            toast.show();
+            item = itemMax;
+            time=time+timeFour+timeThree+timeTwo;
+            if(score<=scoreMax-(scoreFour+scoreThree+scoreTwo)) {
+                score += (scoreFour+scoreThree+scoreTwo);
+            }
+            else {
+                score = scoreMax;
+            }
         }
 
         comboStack = 0;
         itemText.setText(item + "");
-        //timerText.setText((double)(time/10.0) + "초");
-        scoreText.setText(line+"줄");
+        scoreText.setText(score + "");
 
+    }
+
+    void unLuckySeven() {
+        int countOne = 0;
+        int countTwo = 0;
+        int countFour= 0;
+        int countFive = 0;
+        for(int i = 0; i<3; i++) {
+            for(int j=0; j<3; j++) {
+                if(saveData[i][j]==1) {
+                    countOne++;
+                }
+                if(saveData[i][j]==2) {
+                    countTwo++;
+                }
+                if(saveData[i][j]==4) {
+                    countFour++;
+                }
+                if(saveData[i][j]==5) {
+                    countFive++;
+                }
+            }
+        }
+        if(countOne ==7 || countTwo ==7 || countFour == 7 || countFive == 7) {
+            Toast toast = Toast.makeText(getApplicationContext(), "Combo", Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER, 0, -100);
+            toast.setView(getLayoutInflater().inflate(R.layout.unluckyseven, null));
+            toast.show();
+            for (int i = 0; i < 3; i++) {
+                for (int j = 0; j < 3; j++) {
+                    saveData[i][j] = 0;
+                    text[i][j].setText("");
+                }
+            }
+            score = score + 700;
+            time = time + 70;
+            if(item<=itemMax-1) {
+                item++;
+            }
+
+        }
     }
 
     void initBoolean() {
@@ -345,7 +436,7 @@ public class TimeAttackActivity extends AppCompatActivity implements View.OnClic
 
     public void pauseClicked(View v) {
         Intent intent = new Intent(getApplicationContext(), PauseActivity.class);
-        intent.putExtra("modePAUSE", "timeattack");
+        intent.putExtra("modePAUSE", "hell");
         startActivity(intent);
     }
 
@@ -360,7 +451,7 @@ public class TimeAttackActivity extends AppCompatActivity implements View.OnClic
     }
 
     public void rankClicked(View v) {
-        Intent intent = new Intent(getApplicationContext(), RankTimeAttackActivity.class);
+        Intent intent = new Intent(getApplicationContext(), RankHellActivity.class);
         startActivity(intent);
     }
 
@@ -375,17 +466,20 @@ public class TimeAttackActivity extends AppCompatActivity implements View.OnClic
         }
 
         if (count == 9) {
-            timeattackTimer.cancel();
+            hellTimer.cancel();
+            db = openOrCreateDatabase("scoreDB.db", MODE_PRIVATE, null);
+            createTable("Hell");
+            insertData(score, getDate());
             Intent intent = new Intent(getApplicationContext(), GameOverActivity.class);
-            intent.putExtra("TotalScore", "실패");
-            intent.putExtra("modePAUSE", "timeattack");
+            intent.putExtra("TotalScore", "최종점수\n"+score+"점");
+            intent.putExtra("modePAUSE", "hell");
             startActivity(intent);
             finish();
         }
     }
 
     public void onUserLeaveHint() {
-        timeattackTimer.cancel();
+        hellTimer.cancel();
     }
 
     public void onResume() {
@@ -393,27 +487,27 @@ public class TimeAttackActivity extends AppCompatActivity implements View.OnClic
             mp = MediaPlayer.create(this, R.raw.gamebgm);
         }
         backgroundPreferences = getSharedPreferences("background", MODE_PRIVATE);
-        SharedPreferences effectPreferences = null;
+        effectPreferences = getSharedPreferences("effect", MODE_PRIVATE);
 
         if(backgroundPreferences.getBoolean("background" ,true)) {
             mp.start();   // 노래 시작
             mp.setLooping(true);   // 반복 true 설정
         }
-        time--;
-        timeattackTimer.start();
+        time++;
+        hellTimer.start();
         super.onResume();
     }
 
     public void onPause() {
-        mp.stop();
-        timeattackTimer.cancel();
+        mp.pause();
+        hellTimer.cancel();
         super.onPause();
     }
 
     public void onBackPressed() {
-        timeattackTimer.cancel();
+        hellTimer.cancel();
         Intent intent = new Intent(getApplicationContext(), PauseActivity.class);
-        intent.putExtra("modePAUSE", "timeattack");
+        intent.putExtra("modePAUSE", "hell");
         startActivity(intent);
     }
 
@@ -442,12 +536,12 @@ public class TimeAttackActivity extends AppCompatActivity implements View.OnClic
         }
     }
 
-    public void insertData(double time, String date) {
+    public void insertData(int score, String date) {
         db.beginTransaction(); //sql문을 실행하는 일정구간을 트랜잭션으로 묶어주겠다라는 의미
         //트랜잭션 시작을 나타내는 메소드
         try {
 
-            String sql = "insert into TimeAttack (score, date) values(" + String.valueOf(time) + ", '" + date + "')";
+            String sql = "insert into Hell (score, date) values(" + String.valueOf(score) + ", '" + date + "')";
             db.execSQL(sql);
 
             db.setTransactionSuccessful(); //트랜잭션으로 묶어준 일정영역의 SQL문들이 모두 성공적으로 끝났을 지정

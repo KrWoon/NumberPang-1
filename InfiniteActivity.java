@@ -1,12 +1,17 @@
 package com.anjinma.numberpang;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
+import android.media.*;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Calendar;
 import java.util.Random;
 
 public class InfiniteActivity extends AppCompatActivity implements View.OnClickListener{
@@ -21,7 +26,16 @@ public class InfiniteActivity extends AppCompatActivity implements View.OnClickL
     boolean horizon[] = new boolean[3];
     boolean vertical[] = new boolean[3];
     boolean diagonal[] = new boolean[2];
+    SQLiteDatabase db = null;
+    SharedPreferences backgroundPreferences = null;
+    SharedPreferences effectPreferences = null;
 
+    MediaPlayer mp = null;
+
+    final int scoreOne = 10;
+    final int scoreTwo = 20;
+    final int scoreThree = 50;
+    final int scoreFour = 200;
     final int scoreMax = 99999;
     final int itemMax = 99;
 
@@ -35,7 +49,8 @@ public class InfiniteActivity extends AppCompatActivity implements View.OnClickL
     TextView scoreText = null;
     TextView itemText = null;
 
-
+    SoundPool soundpool;
+    int soundId = 0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -70,6 +85,9 @@ public class InfiniteActivity extends AppCompatActivity implements View.OnClickL
 
         scoreText.setText(score + "");
         itemText.setText(item + "");
+
+        soundpool = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
+        soundId = soundpool.load(this, R.raw.beep, 1);
     }
 
     public void onClick(View v) {
@@ -77,6 +95,9 @@ public class InfiniteActivity extends AppCompatActivity implements View.OnClickL
         for(i=0; i<3; i++) {
             for(j=0; j<3; j++) {
                 if (v.getId() == textid[i][j]) {
+                    if(effectPreferences.getBoolean("effect", true))
+                       soundpool.play(soundId, 1.0F, 1.0F,  1,  0,  1.0F); // soundId, leftVolum, rightVolum, priority, loop, rate
+
                     if (text[i][j].getText() == "") {
                         text[i][j].setText(saveRandom[0] + "");
                         saveData[i][j] = saveRandom[0];
@@ -88,7 +109,7 @@ public class InfiniteActivity extends AppCompatActivity implements View.OnClickL
                         saveRandom[0] = saveRandom[1];
                         saveRandom[1] = saveRandom[2];
                         saveRandom[2] = ranNumber;
-
+                        unLuckySeven();
                         checkCombo();
 
                         if (horizon[i] == true) {
@@ -125,6 +146,8 @@ public class InfiniteActivity extends AppCompatActivity implements View.OnClickL
         // 아이템 사용
         if(v.getId() == R.id.Item) {
             if (item > 0) {
+                if(effectPreferences.getBoolean("effect", true))
+                    soundpool.play(soundId, 1.0F, 1.0F,  1,  0,  1.0F); // soundId, leftVolum, rightVolum, priority, loop, rate
                 for (int i = 0; i < 3; i++) {
                     for (int j = 0; j < 3; j++) {
                         saveData[i][j] = 0;
@@ -134,7 +157,10 @@ public class InfiniteActivity extends AppCompatActivity implements View.OnClickL
                 item--;
                 itemText.setText(item + "");
 
-                Toast.makeText(getApplicationContext(), "아이템 사용 !", Toast.LENGTH_SHORT).show();
+                Toast toast = Toast.makeText(getApplicationContext(), "Combo", Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.CENTER, 0, -100);
+                toast.setView(getLayoutInflater().inflate(R.layout.clear, null));
+                toast.show();
             }
         }
     }
@@ -143,7 +169,6 @@ public class InfiniteActivity extends AppCompatActivity implements View.OnClickL
     void newRandom() {
         Random r = new Random();
         this.ranNumber = r.nextInt(5) + 1;
-
     }
 
     void checkCombo() {
@@ -152,8 +177,8 @@ public class InfiniteActivity extends AppCompatActivity implements View.OnClickL
             if (saveData[i][0] + saveData[i][1] + saveData[i][2] == 9
                     && saveData[i][0] > 0 && saveData[i][1] > 0 && saveData[i][2] > 0) {
                 horizon[i] = true;
-                if(score<=scoreMax-10) {
-                    score += 10;
+                if(score<=scoreMax-scoreOne) {
+                    score += scoreOne;
                 }
                 else {
                     score = scoreMax;
@@ -169,8 +194,8 @@ public class InfiniteActivity extends AppCompatActivity implements View.OnClickL
             if (saveData[0][i] + saveData[1][i] + saveData[2][i] == 9
                     && saveData[0][i] > 0 && saveData[1][i] > 0 && saveData[2][i] > 0) {
                 vertical[i] = true;
-                if(score<=scoreMax-10) {
-                    score += 10;
+                if(score<=scoreMax-scoreOne) {
+                    score += scoreOne;
                 }
                 else {
                     score = scoreMax;
@@ -185,8 +210,8 @@ public class InfiniteActivity extends AppCompatActivity implements View.OnClickL
         if (saveData[0][0] + saveData[1][1] + saveData[2][2] == 9
                 && saveData[0][0] > 0 && saveData[1][1] > 0 && saveData[2][2] > 0) {
             diagonal[0] = true;
-            if(score<=scoreMax-10) {
-                score += 10;
+            if(score<=scoreMax-scoreOne) {
+                score += scoreOne;
             }
             else {
                 score = scoreMax;
@@ -200,8 +225,8 @@ public class InfiniteActivity extends AppCompatActivity implements View.OnClickL
         if (saveData[2][0] + saveData[1][1] + saveData[0][2] == 9
                 && saveData[0][2] > 0 && saveData[1][1] > 0 && saveData[2][0] > 0) {
             diagonal[1] = true;
-            if(score<=scoreMax-10) {
-                score += 10;
+            if(score<=scoreMax-scoreOne) {
+                score += scoreOne;
             }
             else {
                 score = scoreMax;
@@ -218,33 +243,42 @@ public class InfiniteActivity extends AppCompatActivity implements View.OnClickL
         }
 
         if(combo==2 && comboStack >= 1) {
-            Toast.makeText(getApplicationContext(), combo + " Combo !" , Toast.LENGTH_SHORT).show();
+            Toast toast = Toast.makeText(getApplicationContext(), "Combo", Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER, 0, -100);
+            toast.setView(getLayoutInflater().inflate(R.layout.twocombo, null));
+            toast.show();
             if(item<=itemMax-1) {
                 item++;
             }
 
-            if(score<=scoreMax-20) {
-                score += 20;
+            if(score<=scoreMax-scoreTwo) {
+                score += scoreTwo;
             }
             else {
                 score = scoreMax;
             }
         }
         if(combo==3 && comboStack == 1) {
-            Toast.makeText(getApplicationContext(), combo + " Combo !" , Toast.LENGTH_SHORT).show();
+            Toast toast = Toast.makeText(getApplicationContext(), "Combo", Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER, 0, -100);
+            toast.setView(getLayoutInflater().inflate(R.layout.threecombo, null));
+            toast.show();
             if(item<=itemMax-1) {
                 item++;
             }
 
-            if(score<=scoreMax-50) {
-                score += 50;
+            if(score<=scoreMax-scoreThree) {
+                score += scoreThree;
             }
             else {
                 score = scoreMax;
             }
         }
         if(combo==3 && comboStack >= 2) {
-            Toast.makeText(getApplicationContext(), combo + " Combo !" , Toast.LENGTH_SHORT).show();
+            Toast toast = Toast.makeText(getApplicationContext(), "Combo", Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER, 0, -100);
+            toast.setView(getLayoutInflater().inflate(R.layout.threecombo, null));
+            toast.show();
             if(item<=itemMax-2) {
                 item = item + 2;
             }
@@ -252,55 +286,64 @@ public class InfiniteActivity extends AppCompatActivity implements View.OnClickL
                 item = itemMax;
             }
 
-            if(score<=scoreMax-70) {
-                score += 70;
+            if(score<=scoreMax-(scoreThree+scoreTwo)) {
+                score += (scoreThree+scoreTwo);
             }
             else {
                 score = scoreMax;
             }
         }
         if(combo==4 && comboStack ==1) {
-            Toast.makeText(getApplicationContext(), combo + " Combo !" , Toast.LENGTH_SHORT).show();
-            if(item<=itemMax-5) {
-                item = item + 5;
+            Toast toast = Toast.makeText(getApplicationContext(), "Combo", Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER, 0, -100);
+            toast.setView(getLayoutInflater().inflate(R.layout.fourcombo, null));
+            toast.show();
+            if(item<=itemMax-3) {
+                item = item + 3;
             }
             else {
                 item = itemMax;
             }
 
-            if(score<=scoreMax-500) {
-                score += 500;
+            if(score<=scoreMax-scoreFour) {
+                score += scoreFour;
             }
             else {
                 score = scoreMax;
             }
         }
         if(combo==4 && comboStack ==2) {
-            Toast.makeText(getApplicationContext(), combo + " Combo !" , Toast.LENGTH_SHORT).show();
-            if(item<=itemMax-6) {
-                item = item + 6;
+            Toast toast = Toast.makeText(getApplicationContext(), "Combo", Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER, 0, -100);
+            toast.setView(getLayoutInflater().inflate(R.layout.fourcombo, null));
+            toast.show();
+            if(item<=itemMax-4) {
+                item = item + 4;
             }
             else {
                 item = itemMax;
             }
 
-            if(score<=scoreMax-550) {
-                score += 550;
+            if(score<=scoreMax-(scoreFour+scoreThree)) {
+                score += (scoreFour+scoreThree);
             }
             else {
                 score = scoreMax;
             }
         }
         if(combo==4 && comboStack >=3) {
-            Toast.makeText(getApplicationContext(), combo + " Combo !" , Toast.LENGTH_SHORT).show();
-            if(item<=itemMax-7) {
-                item = item + 7;
+            Toast toast = Toast.makeText(getApplicationContext(), "Combo", Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER, 0, -100);
+            toast.setView(getLayoutInflater().inflate(R.layout.fourcombo, null));
+            toast.show();
+            if(item<=itemMax-5) {
+                item = item + 5;
             }
             else {
                 item = itemMax;
             }
-            if(score<=scoreMax-570) {
-                score += 570;
+            if(score<=scoreMax-(scoreFour+scoreThree+scoreTwo)) {
+                score += (scoreFour+scoreThree+scoreTwo);
             }
             else {
                 score = scoreMax;
@@ -312,6 +355,46 @@ public class InfiniteActivity extends AppCompatActivity implements View.OnClickL
         itemText.setText(item + "");
         scoreText.setText(score + "");
 
+    }
+
+    void unLuckySeven() {
+        int countOne = 0;
+        int countTwo = 0;
+        int countFour= 0;
+        int countFive = 0;
+        for(int i = 0; i<3; i++) {
+            for(int j=0; j<3; j++) {
+                if(saveData[i][j]==1) {
+                    countOne++;
+                }
+                if(saveData[i][j]==2) {
+                    countTwo++;
+                }
+                if(saveData[i][j]==4) {
+                    countFour++;
+                }
+                if(saveData[i][j]==5) {
+                    countFive++;
+                }
+            }
+        }
+        if(countOne ==7 || countTwo ==7 || countFour == 7 || countFive == 7) {
+            Toast toast = Toast.makeText(getApplicationContext(), "Combo", Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER, 0, -100);
+            toast.setView(getLayoutInflater().inflate(R.layout.unluckyseven, null));
+            toast.show();
+            for (int i = 0; i < 3; i++) {
+                for (int j = 0; j < 3; j++) {
+                    saveData[i][j] = 0;
+                    text[i][j].setText("");
+                }
+            }
+            score = score + 700;
+            if(item<=itemMax-1) {
+                item++;
+            }
+
+        }
     }
 
     void initBoolean() {
@@ -326,15 +409,22 @@ public class InfiniteActivity extends AppCompatActivity implements View.OnClickL
 
 
     public void pauseClicked(View v) {
-        Toast.makeText(getApplicationContext(), "일시 정지", Toast.LENGTH_LONG).show();
         Intent intent = new Intent(getApplicationContext(), PauseActivity.class);
         intent.putExtra("modePAUSE", "infinite");
         startActivity(intent);
     }
 
     public void optionClicked(View v) {
-        Toast.makeText(getApplicationContext(), "옵션", Toast.LENGTH_LONG).show();
         Intent intent = new Intent(getApplicationContext(), OptionActivity.class);
+        startActivity(intent);
+    }
+
+    public void wayClicked(View v) {
+        Intent intent = new Intent(getApplicationContext(), WayFirstActivity.class);
+        startActivity(intent);
+    }
+    public void rankClicked(View v) {
+        Intent intent = new Intent(getApplicationContext(), RankInfiniteActivity.class);
         startActivity(intent);
     }
 
@@ -349,7 +439,9 @@ public class InfiniteActivity extends AppCompatActivity implements View.OnClickL
         }
 
         if (count == 9) {
-            Toast.makeText(getApplicationContext(), "최종점수는 " + score + "점 입니다", Toast.LENGTH_LONG).show();
+            db = openOrCreateDatabase("scoreDB.db", MODE_PRIVATE, null);
+            createTable("Infinite");
+            insertData(score, getDate());
             Intent intent = new Intent(getApplicationContext(), GameOverActivity.class);
             intent.putExtra("TotalScore", "최종점수\n"+score+"점");
             intent.putExtra("modePAUSE", "infinite");
@@ -358,13 +450,75 @@ public class InfiniteActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
+    public void onResume() {
+        if(mp == null) {
+            mp = MediaPlayer.create(this, R.raw.gamebgm);
+        }
+        backgroundPreferences = getSharedPreferences("background", MODE_PRIVATE);
+        effectPreferences = getSharedPreferences("effect", MODE_PRIVATE);
 
+        if(backgroundPreferences.getBoolean("background" ,true)) {
+            mp.start();   // 노래 시작
+            mp.setLooping(true);   // 반복 true 설정
+        }
+        super.onResume();
+    }
+
+    public void onPause() {
+        mp.pause();
+        super.onPause();
+    }
 
     public void onBackPressed() {
 
-        Toast.makeText(getApplicationContext(), "일시 정지", Toast.LENGTH_LONG).show();
         Intent intent = new Intent(getApplicationContext(), PauseActivity.class);
         intent.putExtra("modePAUSE", "infinite");
         startActivity(intent);
+    }
+
+    String getDate() {
+        String date;
+        Calendar now = Calendar.getInstance();
+
+        date = now.get(Calendar.YEAR) + "." + now.get(Calendar.MONTH) + "." + now.get(Calendar.DATE) + " " + now.get(Calendar.HOUR_OF_DAY) + ":" + now.get(Calendar.MINUTE);
+
+        return date;
+    }
+
+    private void createDatabase() {
+        String name = "scoreDB.db";
+        db = SQLiteDatabase.openOrCreateDatabase(name,  null);
+    }
+
+    private void createTable(String tableName) {
+
+        String sql = "create table " + tableName + " (score int, date text)";
+
+        try {
+            db.execSQL(sql);//slq문 실행
+        } catch (Exception e) {
+            //Toast.makeText(getApplicationContext(), "Create Table 오류", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public void insertData(int score, String date) {
+        db.beginTransaction(); //sql문을 실행하는 일정구간을 트랜잭션으로 묶어주겠다라는 의미
+        //트랜잭션 시작을 나타내는 메소드
+        try {
+
+            String sql = "insert into Infinite (score, date) values(" + String.valueOf(score) + ", '" + date + "')";
+            db.execSQL(sql);
+
+            db.setTransactionSuccessful(); //트랜잭션으로 묶어준 일정영역의 SQL문들이 모두 성공적으로 끝났을 지정
+
+        } catch (Exception e) {
+            //SQL문 실행중 오류가 발생하면 예외처리가 되고..
+            //트랜잭션에 정의된 SQL쿼리가 성공되지 않았기때문에 finally블록에서
+            //트랜잭션 종료메서드 실행시(endTransaction()) 롤백이 된다.
+
+            //Toast.makeText(getApplicationContext(), "DB 오류", Toast.LENGTH_LONG).show();
+        } finally {
+            db.endTransaction(); //트랜잭션을 끝내는 메소드.
+        }
     }
 }
