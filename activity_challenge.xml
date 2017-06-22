@@ -16,7 +16,7 @@
     tools:layout_constraintLeft_creator="1"
     tools:layout_constraintRight_creator="1"
     tools:layout_constraintTop_creator="1"
-    tools:context="com.anjinma.numberpang.InfiniteActivity">
+    tools:context="com.anjinma.numberpang.ChallengeActivity">
 
     <LinearLayout
         android:layout_width="0dp"
@@ -73,8 +73,8 @@
                         android:layout_gravity="center"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:text="Infinite"
-                        android:textColor="@android:color/holo_orange_light"
+                        android:textColor="@android:color/holo_green_dark"
+                        android:text="Challenge"
                         android:textSize="16sp"
                         android:textStyle="bold|italic" />
 
@@ -138,7 +138,7 @@
                     android:text="Time"
                     android:textColor="#a808f9"
                     android:textSize="20sp"
-                    android:visibility="invisible" />
+                    android:visibility="visible" />
             </LinearLayout>
 
             <LinearLayout
@@ -174,7 +174,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="0.22"
-                    android:background="@drawable/platinum"
+                    android:background="@drawable/diamond"
                     android:gravity="center"
                     android:textColor="#ff0000"
                     android:textSize="30sp" />
@@ -184,7 +184,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="0.22"
-                    android:background="@drawable/platinum"
+                    android:background="@drawable/diamond"
                     android:gravity="center"
                     android:textSize="30sp" />
 
@@ -193,7 +193,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="0.22"
-                    android:background="@drawable/platinum"
+                    android:background="@drawable/diamond"
                     android:gravity="center"
                     android:textSize="30sp" />
 
@@ -224,7 +224,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="@drawable/platinum"
+                    android:background="@drawable/diamond"
                     android:gravity="center"
                     android:textSize="45sp" />
 
@@ -233,7 +233,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="@drawable/platinum"
+                    android:background="@drawable/diamond"
                     android:gravity="center"
                     android:textSize="45sp" />
 
@@ -242,7 +242,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="@drawable/platinum"
+                    android:background="@drawable/diamond"
                     android:gravity="center"
                     android:textSize="45sp" />
             </LinearLayout>
@@ -258,7 +258,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="@drawable/platinum"
+                    android:background="@drawable/diamond"
                     android:gravity="center"
                     android:textSize="45sp" />
 
@@ -267,7 +267,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="@drawable/platinum"
+                    android:background="@drawable/diamond"
                     android:gravity="center"
                     android:textSize="45sp" />
 
@@ -276,7 +276,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="@drawable/platinum"
+                    android:background="@drawable/diamond"
                     android:gravity="center"
                     android:textSize="45sp" />
             </LinearLayout>
@@ -292,7 +292,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="@drawable/platinum"
+                    android:background="@drawable/diamond"
                     android:gravity="center"
                     android:textSize="45sp" />
 
@@ -301,7 +301,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="@drawable/platinum"
+                    android:background="@drawable/diamond"
                     android:gravity="center"
                     android:textSize="45sp" />
 
@@ -310,7 +310,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="@drawable/platinum"
+                    android:background="@drawable/diamond"
                     android:gravity="center"
                     android:textSize="45sp" />
             </LinearLayout>

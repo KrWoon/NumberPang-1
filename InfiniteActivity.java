@@ -30,7 +30,7 @@ public class InfiniteActivity extends AppCompatActivity implements View.OnClickL
     SharedPreferences backgroundPreferences = null;
     SharedPreferences effectPreferences = null;
 
-    MediaPlayer mp = null;
+    static MediaPlayer mp = null;
 
     final int scoreOne = 10;
     final int scoreTwo = 20;
@@ -110,6 +110,7 @@ public class InfiniteActivity extends AppCompatActivity implements View.OnClickL
                         saveRandom[1] = saveRandom[2];
                         saveRandom[2] = ranNumber;
                         unLuckySeven();
+                        crossPang();
                         checkCombo();
 
                         if (horizon[i] == true) {
@@ -331,7 +332,7 @@ public class InfiniteActivity extends AppCompatActivity implements View.OnClickL
                 score = scoreMax;
             }
         }
-        if(combo==4 && comboStack >=3) {
+        if(combo==4 && comboStack ==3) {
             Toast toast = Toast.makeText(getApplicationContext(), "Combo", Toast.LENGTH_SHORT);
             toast.setGravity(Gravity.CENTER, 0, -100);
             toast.setView(getLayoutInflater().inflate(R.layout.fourcombo, null));
@@ -344,6 +345,25 @@ public class InfiniteActivity extends AppCompatActivity implements View.OnClickL
             }
             if(score<=scoreMax-(scoreFour+scoreThree+scoreTwo)) {
                 score += (scoreFour+scoreThree+scoreTwo);
+            }
+            else {
+                score = scoreMax;
+            }
+        }
+
+        if(combo==4 && comboStack==4) {
+            Toast toast = Toast.makeText(getApplicationContext(), "Combo", Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER, 0, -100);
+            toast.setView(getLayoutInflater().inflate(R.layout.numberpang, null));
+            toast.show();
+            if(item<=itemMax-5) {
+                item = item + 5;
+            }
+            else {
+                item = itemMax;
+            }
+            if(score<=scoreMax-(1000-(4*scoreOne))) {
+                score += 1000-(4*scoreOne);
             }
             else {
                 score = scoreMax;
@@ -389,12 +409,117 @@ public class InfiniteActivity extends AppCompatActivity implements View.OnClickL
                     text[i][j].setText("");
                 }
             }
-            score = score + 700;
+            if(score<=scoreMax-700) {
+                score = score + 700;
+            }
+            else {
+                score=scoreMax;
+            }
             if(item<=itemMax-1) {
                 item++;
             }
 
         }
+    }
+
+    void crossPang() {
+        int crossCheck = 0;
+        if(saveData[0][1]==1 && saveData[1][0]==1 && saveData[1][1]==1 && saveData[1][2]==1 && saveData[2][1]==1 ) {
+            saveData[0][1] =0;
+            saveData[1][0] =0;
+            saveData[1][1] =0;
+            saveData[1][2] =0;
+            saveData[2][1] =0;
+            text[0][1].setText("");
+            text[1][0].setText("");
+            text[1][1].setText("");
+            text[1][2].setText("");
+            text[2][1].setText("");
+            if (score<=scoreMax-500) {
+                score = score + 500;
+            }
+            else {
+                score = scoreMax;
+            }
+            if(item<=itemMax-1) {
+                item++;
+            }
+            crossCheck = 1;
+        }
+        if(saveData[0][1]==2 && saveData[1][0]==2 && saveData[1][1]==2 && saveData[1][2]==2 && saveData[2][1]==2 ) {
+            saveData[0][1] =0;
+            saveData[1][0] =0;
+            saveData[1][1] =0;
+            saveData[1][2] =0;
+            saveData[2][1] =0;
+            text[0][1].setText("");
+            text[1][0].setText("");
+            text[1][1].setText("");
+            text[1][2].setText("");
+            text[2][1].setText("");
+            if (score<=scoreMax-500) {
+                score = score + 500;
+            }
+            else {
+                score = scoreMax;
+            }
+            if(item<=itemMax-1) {
+                item++;
+            }
+            crossCheck = 1;
+        }
+        if(saveData[0][1]==4 && saveData[1][0]==4 && saveData[1][1]==4 && saveData[1][2]==4 && saveData[2][1]==4 ) {
+            saveData[0][1] =0;
+            saveData[1][0] =0;
+            saveData[1][1] =0;
+            saveData[1][2] =0;
+            saveData[2][1] =0;
+            text[0][1].setText("");
+            text[1][0].setText("");
+            text[1][1].setText("");
+            text[1][2].setText("");
+            text[2][1].setText("");
+            if (score<=scoreMax-500) {
+                score = score + 500;
+            }
+            else {
+                score = scoreMax;
+            }
+            if(item<=itemMax-1) {
+                item++;
+            }
+            crossCheck = 1;
+        }
+        if(saveData[0][1]==5 && saveData[1][0]==5 && saveData[1][1]==5 && saveData[1][2]==5 && saveData[2][1]==5 ) {
+            saveData[0][1] =0;
+            saveData[1][0] =0;
+            saveData[1][1] =0;
+            saveData[1][2] =0;
+            saveData[2][1] =0;
+            text[0][1].setText("");
+            text[1][0].setText("");
+            text[1][1].setText("");
+            text[1][2].setText("");
+            text[2][1].setText("");
+            if (score<=scoreMax-500) {
+                score = score + 500;
+            }
+            else {
+                score = scoreMax;
+            }
+            if(item<=itemMax-1) {
+                item++;
+            }
+            crossCheck = 1;
+        }
+
+        if(crossCheck == 1) {
+            Toast toast = Toast.makeText(getApplicationContext(), "Combo", Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER, 0, -100);
+            toast.setView(getLayoutInflater().inflate(R.layout.crosspang, null));
+            toast.show();
+        }
+
     }
 
     void initBoolean() {
@@ -521,4 +646,8 @@ public class InfiniteActivity extends AppCompatActivity implements View.OnClickL
             db.endTransaction(); //트랜잭션을 끝내는 메소드.
         }
     }
+
+
+
+
 }

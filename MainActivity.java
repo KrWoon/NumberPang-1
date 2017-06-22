@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     TextView startText = null;
@@ -40,7 +39,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void onClick(View v) {
         mp.stop();   // 미디어 플레이어 중지
-      //  mp.release();   // 미디어 플레이어에 할당된 자원 해제
+        mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            public void onCompletion(MediaPlayer mp) {
+                try{
+                    mp.release();
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        mp.setOnErrorListener(new MediaPlayer.OnErrorListener() {
+            public boolean onError(MediaPlayer mp, int what, int extra) {
+                try {
+                    mp.stop();
+                    mp.release();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return true;
+            }
+        });
         switch(v.getId()) {
             case R.id.Start:
                 Intent startIntent = new Intent(getApplicationContext(), ModeActivity.class);
@@ -81,6 +100,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mp.pause();
         super.onPause();
     }
+
+    public void onBackPressed() {
+        Intent intent = new Intent(getApplicationContext(), ExitActivity.class);
+        startActivity(intent);
+    }
+
+
+
 
 
 

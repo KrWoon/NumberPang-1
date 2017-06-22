@@ -7,6 +7,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class PauseActivity extends Activity implements View.OnClickListener {
     TextView restartText = null;
@@ -33,6 +34,30 @@ public class PauseActivity extends Activity implements View.OnClickListener {
     }
 
     public void onClick(View v) {
+        if(mp != null) {
+            mp.stop();   // 미디어 플레이어 중지
+            mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                public void onCompletion(MediaPlayer mp) {
+                    try {
+                        mp.release();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+
+            mp.setOnErrorListener(new MediaPlayer.OnErrorListener() {
+                public boolean onError(MediaPlayer mp, int what, int extra) {
+                    try {
+                        mp.stop();
+                        mp.release();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    return true;
+                }
+            });
+        }
         switch(v.getId()) {
             case R.id.Restart:
                 Intent restartIntent = null;
@@ -63,21 +88,52 @@ public class PauseActivity extends Activity implements View.OnClickListener {
     }
 
     public void onResume() {
-        if(mp == null) {
-            mp = MediaPlayer.create(this, R.raw.pausebgm);
-        }
         backgroundPreferences = getSharedPreferences("background", MODE_PRIVATE);
-
-        if(backgroundPreferences.getBoolean("background" ,true)) {
+        if(backgroundPreferences.getBoolean("background", true)) {
+            if (mp == null) {
+                mp = MediaPlayer.create(this, R.raw.pausebgm);
+            }
             mp.start();   // 노래 시작
             mp.setLooping(true);   // 반복 true 설정
         }
+
         super.onResume();
     }
 
     public void onPause() {
-        mp.pause();
+        if(mp != null) {
+            mp.pause();
+        }
         super.onPause();
+    }
+
+    public void onBackPressed() {
+        if(mp != null) {
+            mp.stop();   // 미디어 플레이어 중지
+
+            mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                public void onCompletion(MediaPlayer mp) {
+                    try {
+                        mp.release();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+
+            mp.setOnErrorListener(new MediaPlayer.OnErrorListener() {
+                public boolean onError(MediaPlayer mp, int what, int extra) {
+                    try {
+                        mp.stop();
+                        mp.release();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    return true;
+                }
+            });
+        }
+        finish();
     }
 
 }

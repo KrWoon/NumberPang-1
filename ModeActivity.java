@@ -56,11 +56,12 @@ public class ModeActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void onResume() {
-        if(mp == null) {
-            mp = MediaPlayer.create(this, R.raw.modebgm);
-        }
         backgroundPreferences = getSharedPreferences("background", MODE_PRIVATE);
+
         if(backgroundPreferences.getBoolean("background" ,true)) {
+            if(mp == null) {
+                mp = MediaPlayer.create(this, R.raw.modebgm);
+            }
             mp.start();   // 노래 시작
             mp.setLooping(true);   // 반복 true 설정
         }
@@ -68,8 +69,37 @@ public class ModeActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void onPause() {
-        mp.pause();
+        if(mp != null) {
+            mp.pause();
+        }
         super.onPause();
+    }
+    public void onBackPressed() {
+        if (mp != null) {
+            mp.stop();   // 미디어 플레이어 중지
+            mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                public void onCompletion(MediaPlayer mp) {
+                    try {
+                        mp.release();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+
+            mp.setOnErrorListener(new MediaPlayer.OnErrorListener() {
+                public boolean onError(MediaPlayer mp, int what, int extra) {
+                    try {
+                        mp.stop();
+                        mp.release();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    return true;
+                }
+            });
+            finish();
+        }
     }
 
 }

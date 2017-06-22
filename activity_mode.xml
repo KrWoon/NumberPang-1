@@ -16,85 +16,189 @@
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_weight="3">
+        android:layout_weight="4"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="2"> </LinearLayout>
+            android:layout_weight="1"></LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="2">
+            android:layout_weight="2.5">
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="GAME MODE"
+                android:textColor="#000000"
+                android:textSize="40sp"
+                android:textStyle="bold|italic" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.1"></LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_gravity="center"
+            android:layout_weight="2"
+            android:background="@android:drawable/alert_light_frame"
+            android:gravity="center"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/Infinite"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="0dp"
                 android:layout_gravity="center"
+                android:layout_weight="4"
                 android:gravity="center"
                 android:text="Infinite"
-                android:background="@android:drawable/alert_light_frame"
+                android:textColor="@android:color/holo_orange_light"
+                android:textSize="30sp"
+                android:textStyle="bold|italic" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="시간제한 없이 게임을 즐기세요!"
                 android:textColor="#000000"
-                android:textScaleX="2"
-                android:textStyle="bold" />
+                android:textSize="10sp"
+                android:textStyle="italic" />
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.5"></LinearLayout>
+            android:layout_weight="0.1"></LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="2">
+            android:layout_weight="2"
+            android:background="@android:drawable/alert_light_frame"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/Challenge"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="Challenge"
-                android:gravity="center"
+                android:layout_height="0dp"
                 android:layout_gravity="center"
-                android:background="@android:drawable/alert_light_frame"
+                android:layout_weight="4"
+                android:gravity="center"
+                android:text="Challenge"
+                android:textColor="@android:color/holo_green_dark"
+                android:textSize="30sp"
+                android:textStyle="bold|italic" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="제한 시간 동안 높은 점수를 획득하세요!"
                 android:textColor="#000000"
-                android:textScaleX="2"
-                android:textStyle="bold"/>
+                android:textSize="10sp"
+                android:textStyle="italic" />
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.5"> </LinearLayout>
+            android:layout_weight="0.1"></LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:background="@android:drawable/alert_light_frame"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/Timeattack"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_gravity="center"
+                android:layout_weight="4"
+                android:gravity="center"
+                android:text="Time Attack"
+                android:textColor="@android:color/holo_blue_dark"
+                android:textSize="30sp"
+                android:textStyle="bold|italic" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="15줄을 가장 빨리 지우세요!"
+                android:textColor="#000000"
+                android:textSize="10sp"
+                android:textStyle="italic" />
+
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="2">
 
-            <TextView
-                android:id="@+id/Timeattack"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="TimeAttack"
-                android:gravity="center"
-                android:layout_gravity="center"
+                android:layout_weight="2"
                 android:background="@android:drawable/alert_light_frame"
-                android:textColor="#000000"
-                android:textScaleX="2"
-                android:textStyle="bold"/>
+                android:orientation="vertical">
 
+                <TextView
+                    android:id="@+id/Hell"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="4"
+                    android:gravity="center"
+                    android:text="Hell"
+                    android:textColor="@android:color/holo_red_dark"
+                    android:textSize="30sp"
+                    android:textStyle="bold|italic" />
+
+                <TextView
+                    android:id="@+id/textView4"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="극한의 난이도에 도전하세요!"
+                    android:textColor="#000000"
+                    android:textSize="10sp"
+                    android:textStyle="italic" />
+
+
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="2"> </LinearLayout>
+            android:layout_weight="1"></LinearLayout>
     </LinearLayout>
 
     <LinearLayout

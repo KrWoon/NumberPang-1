@@ -393,7 +393,8 @@ public class TimeAttackActivity extends AppCompatActivity implements View.OnClic
             mp = MediaPlayer.create(this, R.raw.gamebgm);
         }
         backgroundPreferences = getSharedPreferences("background", MODE_PRIVATE);
-        SharedPreferences effectPreferences = null;
+        //SharedPreferences effectPreferences = null;
+        effectPreferences = getSharedPreferences("effect", MODE_PRIVATE);
 
         if(backgroundPreferences.getBoolean("background" ,true)) {
             mp.start();   // 노래 시작
